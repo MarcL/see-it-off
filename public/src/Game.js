@@ -63,8 +63,7 @@ Candy.Game.prototype = {
         this.updatePlayer();
         this.updateObjects();
 
-		// if the health of the player drops to 0, the player dies = game over
-		if(!Candy._health) {
+		if(Candy._missedItems >= 3) {
 			// show the game over message
 			this.add.sprite((Candy.GAME_WIDTH-594)/2, (Candy.GAME_HEIGHT-271)/2, 'game-over');
 			// pause the game
