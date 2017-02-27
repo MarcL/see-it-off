@@ -10,7 +10,9 @@ Candy.Game = function(game){
 	Candy._health = 0;
     Candy._cursors = null;
     Candy._facing = 'right';
+    Candy._missedItems = 0;
 };
+
 Candy.Game.prototype = {
 	create: function(){
 		// start the physics engine
@@ -36,6 +38,8 @@ Candy.Game.prototype = {
 		this._candyGroup = this.add.group();
 		// spawn first candy
 		Candy.item.spawnCandy(this);
+
+        Candy._missedItems = 0;
 
         this.initialisePlayer();
 	},
@@ -75,17 +79,20 @@ Candy.Game.prototype = {
 			// and spawn new candy
 			Candy.item.spawnCandy(this);
 		}
+
 		// loop through all candy on the screen
 		this._candyGroup.forEach(function(candy){
 			// to rotate them accordingly
 			candy.angle += candy.rotateMe;
 		});
+
+        this.physics.arcade.overlap(this._player, this._candyGroup, this.collideWithPlayer, null, this);
     },
     updatePlayer: function() {
         var moveSpeed = 300;
         this._player.body.velocity.x = 0;
 
-        if (cursors.left.isDown)
+        if (this._cursors.left.isDown)
         {
             this._player.body.velocity.x = -moveSpeed;
 
@@ -95,7 +102,7 @@ Candy.Game.prototype = {
                 this._player.scale.x = -1;
             }
         }
-        else if (cursors.right.isDown)
+        else if (this._cursors.right.isDown)
         {
             this._player.body.velocity.x = moveSpeed;
 
@@ -114,12 +121,16 @@ Candy.Game.prototype = {
 		// play the animation
 		this._player.animations.play('idle');
 
-        cursors = this.game.input.keyboard.createCursorKeys();
+        this._cursors = this.game.input.keyboard.createCursorKeys();
 		this.game.physics.enable(this._player, Phaser.Physics.ARCADE);
         this._player.body.allowGravity = false;
         this._player.body.collideWorldBounds = true;
 
         this._player.anchor.setTo(0.5, 0);
+    },
+    collideWithPlayer: function(player, candy) {
+        Candy.item.collectedCandy(candy);
+        console.log('candy collided with player');
     }
 };
 
@@ -142,7 +153,7 @@ Candy.item = {
 		// enable candy to be clicked/tapped
 		candy.inputEnabled = true;
 		// add event listener to click/tap
-		candy.events.onInputDown.add(this.clickCandy, this);
+		candy.events.onInputDown.add(this.collectedCandy, this);
 		// be sure that the candy will fire an event when it goes out of the screen
 		candy.checkWorldBounds = true;
 		// reset candy when it goes out of screen
@@ -154,7 +165,7 @@ Candy.item = {
 		// add candy to the group
 		game._candyGroup.add(candy);
 	},
-	clickCandy: function(candy){
+	collectedCandy: function(candy){
 		// kill the candy when it's clicked
 		candy.kill();
 		// add points to the score
@@ -167,5 +178,6 @@ Candy.item = {
 		candy.kill();
 		// decrease player's health
 		// Candy._health -= 10;
-	}
+        Candy._missedItems += 1;
+	},
 };
