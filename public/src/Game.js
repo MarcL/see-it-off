@@ -130,7 +130,6 @@ Candy.Game.prototype = {
     },
     collideWithPlayer: function(player, candy) {
         Candy.item.collectedCandy(candy);
-        console.log('candy collided with player');
     }
 };
 
@@ -177,7 +176,7 @@ Candy.item = {
 		// kill the candy
 		candy.kill();
 		// decrease player's health
-		// Candy._health -= 10;
+		Candy._health -= 10;
         Candy._missedItems += 1;
 	},
 };
