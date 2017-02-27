@@ -91,8 +91,8 @@ Candy.Game.prototype = {
 
             if (Candy._facing != 'left')
             {
-                // this._player.animations.play('left');
                 Candy._facing = 'left';
+                this._player.scale.x = -1;
             }
         }
         else if (cursors.right.isDown)
@@ -101,8 +101,8 @@ Candy.Game.prototype = {
 
             if (Candy._facing != 'right')
             {
-//                this._player.animations.play('right');
                 Candy._facing = 'right';
+                this._player.scale.x = 1;
             }
         }
     },
@@ -118,6 +118,8 @@ Candy.Game.prototype = {
 		this.game.physics.enable(this._player, Phaser.Physics.ARCADE);
         this._player.body.allowGravity = false;
         this._player.body.collideWorldBounds = true;
+
+        this._player.anchor.setTo(0.5, 0);
     }
 };
 
