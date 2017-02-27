@@ -8,6 +8,8 @@ Candy.Game = function(game){
 	Candy._scoreText = null;
 	Candy._score = 0;
 	Candy._health = 0;
+    Candy._cursors = null;
+    Candy._facing = 'right';
 };
 Candy.Game.prototype = {
 	create: function(){
@@ -21,12 +23,7 @@ Candy.Game.prototype = {
 		this.add.sprite(10, 5, 'score-bg');
 		// add pause button
 		this.add.button(Candy.GAME_WIDTH-96-10, 5, 'button-pause', this.managePause, this);
-		// create the player
-		this._player = this.add.sprite(5, 760, 'monster-idle');
-		// add player animation
-		this._player.animations.add('idle', [0,1,2,3,4,5,6,7,8,9,10,11,12], 10, true);
-		// play the animation
-		this._player.animations.play('idle');
+
 		// set font style
 		this._fontStyle = { font: "40px Arial", fill: "#FFCC00", stroke: "#333", strokeThickness: 5, align: "center" };
 		// initialize the spawn timer
@@ -39,6 +36,8 @@ Candy.Game.prototype = {
 		this._candyGroup = this.add.group();
 		// spawn first candy
 		Candy.item.spawnCandy(this);
+
+        this.initialisePlayer();
 	},
 	managePause: function(){
 		// pause the game
@@ -56,6 +55,19 @@ Candy.Game.prototype = {
 	update: function(){
 		// update timer every frame
 		this._spawnCandyTimer += this.time.elapsed;
+
+        this.updatePlayer();
+        this.updateObjects();
+
+		// if the health of the player drops to 0, the player dies = game over
+		if(!Candy._health) {
+			// show the game over message
+			this.add.sprite((Candy.GAME_WIDTH-594)/2, (Candy.GAME_HEIGHT-271)/2, 'game-over');
+			// pause the game
+			this.game.paused = true;
+		}
+	},
+    updateObjects: function() {
 		// if spawn timer reach one second (1000 miliseconds)
 		if(this._spawnCandyTimer > 1000) {
 			// reset it
@@ -68,14 +80,45 @@ Candy.Game.prototype = {
 			// to rotate them accordingly
 			candy.angle += candy.rotateMe;
 		});
-		// if the health of the player drops to 0, the player dies = game over
-		if(!Candy._health) {
-			// show the game over message
-			this.add.sprite((Candy.GAME_WIDTH-594)/2, (Candy.GAME_HEIGHT-271)/2, 'game-over');
-			// pause the game
-			this.game.paused = true;
-		}
-	}
+    },
+    updatePlayer: function() {
+        var moveSpeed = 300;
+        this._player.body.velocity.x = 0;
+
+        if (cursors.left.isDown)
+        {
+            this._player.body.velocity.x = -moveSpeed;
+
+            if (Candy._facing != 'left')
+            {
+                // this._player.animations.play('left');
+                Candy._facing = 'left';
+            }
+        }
+        else if (cursors.right.isDown)
+        {
+            this._player.body.velocity.x = moveSpeed;
+
+            if (Candy._facing != 'right')
+            {
+//                this._player.animations.play('right');
+                Candy._facing = 'right';
+            }
+        }
+    },
+    initialisePlayer: function() {
+		// create the player
+		this._player = this.add.sprite(Candy.GAME_WIDTH * 0.5, 760, 'monster-idle');
+		// add player animation
+		this._player.animations.add('idle', [0,1,2,3,4,5,6,7,8,9,10,11,12], 10, true);
+		// play the animation
+		this._player.animations.play('idle');
+
+        cursors = this.game.input.keyboard.createCursorKeys();
+		this.game.physics.enable(this._player, Phaser.Physics.ARCADE);
+        this._player.body.allowGravity = false;
+        this._player.body.collideWorldBounds = true;
+    }
 };
 
 Candy.item = {
@@ -121,6 +164,6 @@ Candy.item = {
 		// kill the candy
 		candy.kill();
 		// decrease player's health
-		Candy._health -= 10;
+		// Candy._health -= 10;
 	}
 };
