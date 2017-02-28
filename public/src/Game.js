@@ -1,9 +1,19 @@
-Candy.Game = function(game){
+var gameConfig = {
+    drinkDecrementPerTimeUnit: 1,
+    drinkDecrementTimeMilliSeconds: 1000,
+    drinkMaximumAmount: 250,
+    foodDecrementPerMove: 2,
+    playerInitialMoveSpeed: 300,
+    playerMaxDragMultiplier: 0.4,
+};
+Candy.Game = function(game) {
 	// define needed variables for Candy.Game
 	this._player = null;
 	this._candyGroup = null;
 	this._spawnCandyTimer = 0;
+    this._drinkTimer = 0;
 	this._fontStyle = null;
+
 	// define Candy variables to reuse them in Candy.item functions
 	Candy._scoreText = null;
 	Candy._score = 0;
@@ -11,6 +21,10 @@ Candy.Game = function(game){
     Candy._cursors = null;
     Candy._facing = 'right';
     Candy._missedItems = 0;
+    Candy._drinkAmount = 0;
+    Candy._drinkAmountText = null;
+    Candy._foodAmount = 0;
+    Candy._foodAmountText = null;
 };
 
 Candy.Game.prototype = {
@@ -30,8 +44,10 @@ Candy.Game.prototype = {
 		this._fontStyle = { font: "40px Arial", fill: "#FFCC00", stroke: "#333", strokeThickness: 5, align: "center" };
 		// initialize the spawn timer
 		this._spawnCandyTimer = 0;
+        this._drinkTimer = 0;
 		// initialize the score text with 0
 		Candy._scoreText = this.add.text(120, 20, "0", this._fontStyle);
+		Candy._drinkAmountText = this.add.text(120, 80, "0", this._fontStyle);
 		// set health of the player
 		Candy._health = 10;
 		// create new group for candy
@@ -62,6 +78,7 @@ Candy.Game.prototype = {
 
         this.updatePlayer();
         this.updateObjects();
+        this.updateFoodAndDrinkAmount();
 
 		if(Candy._missedItems >= 3) {
 			// show the game over message
@@ -87,8 +104,14 @@ Candy.Game.prototype = {
 
         this.physics.arcade.overlap(this._player, this._candyGroup, this.collideWithPlayer, null, this);
     },
+    getDrunkSpeedMultiplier: function() {
+        var drunkPercentage = Candy._drinkAmount / gameConfig.drinkMaximumAmount;
+        var speedMultiplier = 1 - (drunkPercentage * gameConfig.playerMaxDragMultiplier);
+        return speedMultiplier;
+    },
     updatePlayer: function() {
-        var moveSpeed = 300;
+        var speedMultiplier = this.getDrunkSpeedMultiplier();
+        var moveSpeed = gameConfig.playerInitialMoveSpeed * speedMultiplier;
         this._player.body.velocity.x = 0;
 
         if (this._cursors.left.isDown)
@@ -129,6 +152,19 @@ Candy.Game.prototype = {
     },
     collideWithPlayer: function(player, candy) {
         Candy.item.collectedCandy(candy);
+    },
+    updateFoodAndDrinkAmount: function() {
+		this._drinkTimer += this.time.elapsed;
+        if (this._drinkTimer > gameConfig.drinkDecrementTimeMilliSeconds) {
+            this._drinkTimer = 0;
+
+            Candy._drinkAmount -= gameConfig.drinkDecrementPerTimeUnit;
+            if (Candy._drinkAmount < 0) {
+                Candy._drinkAmount = 0;
+            }
+        }
+
+		Candy._drinkAmountText.setText(Candy._drinkAmount);
     }
 };
 
@@ -170,12 +206,18 @@ Candy.item = {
 		Candy._score += 1;
 		// update score text
 		Candy._scoreText.setText(Candy._score);
+
+        // TODO Drink amount depends on item caught
+        Candy._drinkAmount += 10;
+        if (Candy._drinkAmount > gameConfig.drinkMaximumAmount) {
+            Candy._drinkAmount = gameConfig.drinkMaximumAmount;
+        }
 	},
 	removeCandy: function(candy){
 		// kill the candy
 		candy.kill();
 		// decrease player's health
-		Candy._health -= 10;
-        Candy._missedItems += 1;
+		// Candy._health -= 10;
+        // Candy._missedItems += 1;
 	},
 };
