@@ -5,7 +5,15 @@ var gameConfig = {
     foodDecrementPerMove: 2,
     playerInitialMoveSpeed: 300,
     playerMaxDragMultiplier: 0.4,
+    playerYPosition: 640,
+    ui: {
+        face: {
+            position: [480, 800],
+            scale: 0.75
+        }
+    }
 };
+
 Candy.Game = function(game) {
 	// define needed variables for Candy.Game
 	this._player = null;
@@ -13,6 +21,7 @@ Candy.Game = function(game) {
 	this._spawnCandyTimer = 0;
     this._drinkTimer = 0;
 	this._fontStyle = null;
+    this._face = null;
 
 	// define Candy variables to reuse them in Candy.item functions
 	Candy._scoreText = null;
@@ -33,9 +42,10 @@ Candy.Game.prototype = {
 		this.physics.startSystem(Phaser.Physics.ARCADE);
 		// set the global gravity
 		this.physics.arcade.gravity.y = 200;
+
 		// display images: background, floor and score
 		this.add.sprite(0, 0, 'background');
-		this.add.sprite(-30, Candy.GAME_HEIGHT-160, 'floor');
+		this.add.sprite(-30, Candy.GAME_HEIGHT-280, 'floor');
 		this.add.sprite(10, 5, 'score-bg');
 		// add pause button
 		this.add.button(Candy.GAME_WIDTH-96-10, 5, 'button-pause', this.managePause, this);
@@ -58,6 +68,7 @@ Candy.Game.prototype = {
         Candy._missedItems = 0;
 
         this.initialisePlayer();
+        this.initialiseUi();
 	},
 	managePause: function(){
 		// pause the game
@@ -136,11 +147,9 @@ Candy.Game.prototype = {
         }
     },
     initialisePlayer: function() {
-		// create the player
-		this._player = this.add.sprite(Candy.GAME_WIDTH * 0.5, 760, 'monster-idle');
-		// add player animation
+		this._player = this.add.sprite(Candy.GAME_WIDTH * 0.5, gameConfig.playerYPosition, 'monster-idle');
+
 		this._player.animations.add('idle', [0,1,2,3,4,5,6,7,8,9,10,11,12], 10, true);
-		// play the animation
 		this._player.animations.play('idle');
 
         this._cursors = this.game.input.keyboard.createCursorKeys();
@@ -149,6 +158,12 @@ Candy.Game.prototype = {
         this._player.body.collideWorldBounds = true;
 
         this._player.anchor.setTo(0.5, 0);
+    },
+    initialiseUi: function() {
+        var uiFace = gameConfig.ui.face;
+        this._face = this.add.sprite(uiFace.position[0], uiFace.position[1], 'player-drunk-3');
+        this._face.scale.x = uiFace.scale;
+        this._face.scale.y = uiFace.scale;
     },
     collideWithPlayer: function(player, candy) {
         Candy.item.collectedCandy(candy);

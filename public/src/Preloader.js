@@ -27,7 +27,11 @@ Candy.Preloader.prototype = {
 		    title: 'img/title.png',
 		    'game-over': 'img/gameover.png',
 		    'score-bg': 'img/score-bg.png',
-		    'button-pause': 'img/button-pause.png'
+		    'button-pause': 'img/button-pause.png',
+            'player-neutral': 'img/player/tom-neutral.png',
+            'player-drunk-1': 'img/player/tom-drunk-level-1.png',
+            'player-drunk-2': 'img/player/tom-drunk-level-2.png',
+            'player-drunk-3': 'img/player/tom-drunk-level-3.png',
         };
 
         var self = this;
