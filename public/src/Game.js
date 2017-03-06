@@ -196,9 +196,12 @@ Candy.item = {
 		// define the offset for every candy
 		var dropOffset = [-27,-36,-36,-38,-48];
 		// randomize candy type
-		var candyType = Math.floor(Math.random()*5);
+		var candyType = Math.floor(Math.random()*4);
 		// create new candy
-		var candy = game.add.sprite(dropPos, dropOffset[candyType], 'candy');
+		var candy = game.add.sprite(dropPos, dropOffset[candyType], 'collectibles');
+        candy.scale.x = 0.5;
+        candy.scale.y = 0.5;
+
 		// add new animation frame
 		candy.animations.add('anim', [candyType], 10, true);
 		// play the newly created animation

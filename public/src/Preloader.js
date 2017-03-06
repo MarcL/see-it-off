@@ -16,6 +16,7 @@ Candy.Preloader.prototype = {
 		this.load.spritesheet('monster-idle', 'img/monster-idle.png', 103, 131);
 		this.load.spritesheet('button-start', 'img/button-start.png', 401, 143);
         this.load.spritesheet('faces', 'img/player/faces.png', 256, 256);
+		this.load.spritesheet('collectibles', 'img/food-drink.png',256, 256);
 	},
 	create: function(){
 		this.state.start('MainMenu');
