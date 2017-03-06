@@ -182,7 +182,7 @@ Candy.Game.prototype = {
 
             // TODO Remove - Testing face frames
             this._face.frame += 1;
-            this._face.frame = this._face.frame % 4;
+            this._face.frame = this._face.frame % 13;
         }
 
 		Candy._drinkAmountText.setText(Candy._drinkAmount);
