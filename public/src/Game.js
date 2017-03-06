@@ -8,7 +8,7 @@ var gameConfig = {
     playerYPosition: 640,
     ui: {
         face: {
-            position: [480, 800],
+            position: [450, 740],
             scale: 0.75
         }
     }
@@ -161,7 +161,9 @@ Candy.Game.prototype = {
     },
     initialiseUi: function() {
         var uiFace = gameConfig.ui.face;
-        this._face = this.add.sprite(uiFace.position[0], uiFace.position[1], 'player-drunk-3');
+//        this._face = this.add.sprite(uiFace.position[0], uiFace.position[1], 'player-drunk-3');
+        this._face = this.add.sprite(uiFace.position[0], uiFace.position[1], 'faces');
+        this._face.frame = 3;
         this._face.scale.x = uiFace.scale;
         this._face.scale.y = uiFace.scale;
     },
@@ -177,6 +179,10 @@ Candy.Game.prototype = {
             if (Candy._drinkAmount < 0) {
                 Candy._drinkAmount = 0;
             }
+
+            // TODO Remove - Testing face frames
+            this._face.frame += 1;
+            this._face.frame = this._face.frame % 4;
         }
 
 		Candy._drinkAmountText.setText(Candy._drinkAmount);
