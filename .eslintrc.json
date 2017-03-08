@@ -6,7 +6,8 @@
     "rules": {
         "indent": [2, 4],
         "object-curly-spacing": "off",
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "comma-dangle": "off"
     },
     "globals": {
         "window": true
