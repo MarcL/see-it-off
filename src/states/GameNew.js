@@ -46,21 +46,15 @@ export default class extends Phaser.State {
     }
 
     create() {
-        // start the physics engine
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
-        // set the global gravity
         this.physics.arcade.gravity.y = 200;
 
-        // display images: background, floor and score
         this.add.sprite(0, 0, 'background');
-        this.add.sprite(-30, config.gameHeight - 280, 'floor');
         this.add.sprite(10, 5, 'score-bg');
 
-        // add pause button
         this.add.button(config.gameWidth - 96 - 10, 5, 'button-pause', this.managePause, this);
 
-        // set font style
         this._fontStyle = {
             font: '40px Arial',
             fill: '#FFCC00',
@@ -68,15 +62,14 @@ export default class extends Phaser.State {
             strokeThickness: 5,
             align: 'center',
         };
-        // initialize the spawn timer
+
         this._spawnTimer = 0;
         this._drinkTimer = 0;
-        // initialize the score text with 0
+
         this._scoreText = this.add.text(120, 20, "0", this._fontStyle);
         this._drinkAmountText = this.add.text(120, 80, "0", this._fontStyle);
-        // set health of the player
         this._health = 10;
-        // create new group for candy
+
         this._collectibleGroup = this.add.group();
 
         this._missedItems = 0;

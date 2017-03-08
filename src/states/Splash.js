@@ -25,7 +25,6 @@ export default class extends Phaser.State {
         // TODO: Move these to a data file
         const imageMap = {
             background: './assets/img/background.png',
-            floor: './assets/img/floor.png',
             'monster-cover': './assets/img/monster-cover.png',
             title: './assets/img/title.png',
             'game-over': './assets/img/gameover.png',
