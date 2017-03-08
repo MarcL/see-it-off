@@ -7,7 +7,7 @@ export default class extends Phaser.Sprite {
         this.anchor.setTo(0.5);
 
         // TODO - Remove % 4 when we've got all sprites
-        this.frame = collectibleType.frameNumber % 4;
+        this.frame = collectibleType.frameNumber % 5;
 
         game.physics.enable(this, Phaser.Physics.ARCADE);
 
