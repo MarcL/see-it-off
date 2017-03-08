@@ -1,13 +1,8 @@
 import Phaser from 'phaser';
-import centerGameObjects from '../utils';
 
 import config from '../config';
 
 export default class extends Phaser.State {
-	// preload: function(){
-		// set background color and preload image
-	// },
-
     preload() {
         this.stage.backgroundColor = '#B4D9E7';
         this.preloadBar = this.add.sprite((config.gameWidth - 311) / 2, (config.gameHeight - 27) / 2, 'preloaderBar');
@@ -35,8 +30,7 @@ export default class extends Phaser.State {
             title: './assets/img/title.png',
             'game-over': './assets/img/gameover.png',
             'score-bg': './assets/img/score-bg.png',
-            'button-pause': './assets/img/button-pause.png',
-            mushroom: './assets/images/mushroom2.png',
+            'button-pause': './assets/img/button-pause.png'
         };
 
         Object.keys(imageMap).forEach((id) => {
