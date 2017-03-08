@@ -88,38 +88,43 @@ export default class extends Phaser.State {
     }
 
     managePause() {
-        // pause the game
         this.game.paused = true;
-        // add proper informational text
-        const pausedText = this.add.text(100, 250, 'Game paused.\nTap anywhere to continue.', this._fontStyle);
-        // set event listener for the user's click/tap the screen
+        const pausedText = this.add.text(
+                300,
+                400,
+                'Game paused.\nTap anywhere to continue.',
+                this._fontStyle
+        );
+
         this.input.onDown.add(() => {
-            // remove the pause text
             pausedText.destroy();
-            // unpause the game
             this.game.paused = false;
         }, this);
     }
 
     update() {
-        // update timer every frame
         this._spawnTimer += this.time.elapsed;
 
         this.updatePlayer();
-        this.updateObjects();
+        this.updateCollectibles();
         this.updateFoodAndDrinkAmount();
 
-        if (this._missedItems >= 3) {
-            // show the game over message
-            this.add.sprite((config.gameWidth - 594) / 2, (config.gameHeight - 271) / 2, 'game-over');
-
-            // pause the game
-            this.game.paused = true;
+        if (this.isGameOver()) {
+            this.showGameOver();
         }
     }
 
-    updateObjects() {
-        // if spawn timer reach one second (1000 miliseconds)
+    isGameOver() {
+        // TODO This should be based on drink/food amount
+        return this._missedItems >= 3;
+    }
+
+    showGameOver() {
+        this.add.sprite((config.gameWidth - 594) / 2, (config.gameHeight - 271) / 2, 'game-over');
+        this.game.paused = true;
+    }
+
+    updateCollectibles() {
         if (this._spawnTimer > 1000) {
             this._spawnTimer = 0;
             this.spawnCollectible();
@@ -152,14 +157,14 @@ export default class extends Phaser.State {
         if (this._cursors.left.isDown) {
             this._player.body.velocity.x = -moveSpeed;
 
-            if (this._facing != 'left') {
+            if (this._facing !== 'left') {
                 this._facing = 'left';
                 this._player.scale.x = -1;
             }
         } else if (this._cursors.right.isDown) {
             this._player.body.velocity.x = moveSpeed;
 
-            if (this._facing != 'right') {
+            if (this._facing !== 'right') {
                 this._facing = 'right';
                 this._player.scale.x = 1;
             }
@@ -188,8 +193,8 @@ export default class extends Phaser.State {
         this._face.scale.y = uiFace.scale;
     }
 
-    collideWithPlayer(player, candy) {
-       this.collectedCandy(candy);
+    collideWithPlayer(player, collectible) {
+        this.playerCollectedItem(collectible);
     }
 
     updateFoodAndDrinkAmount() {
@@ -234,15 +239,14 @@ export default class extends Phaser.State {
         this._collectibleGroup.add(collectible);
     }
 
-    collectedCandy(candy) {
-        // kill the candy when it's clicked
-        candy.kill();
-        // add points to the score
-        this._score += 1;
-        // update score text
+    playerCollectedItem(collectible) {
+        collectible.kill();
+
+        this._score += collectible.collectibleType.points;
+
         this._scoreText.setText(this._score);
 
-        // TODO Drink amount depends on item caught
+        // TODO Determine whether it's food or drink and update accordingly
         this._drinkAmount += 10;
         if (this._drinkAmount > gameConfig.drinkMaximumAmount) {
             this._drinkAmount = gameConfig.drinkMaximumAmount;
@@ -251,7 +255,7 @@ export default class extends Phaser.State {
 
     onCollectibleOutOfBounds(collectible) {
         collectible.kill();
-        this._missedItems += 1;
+        this.game._missedItems += 1;
 
         // TODO - Reduce food / drink amount because of this?
     }
