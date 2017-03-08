@@ -66,8 +66,9 @@ export default class extends Phaser.State {
         this._spawnTimer = 0;
         this._drinkTimer = 0;
 
-        this._scoreText = this.add.text(120, 20, "0", this._fontStyle);
-        this._drinkAmountText = this.add.text(120, 80, "0", this._fontStyle);
+        this._scoreText = this.add.text(120, 20, '0', this._fontStyle);
+        this._drinkAmountText = this.add.text(120, 80, '0', this._fontStyle);
+        this._foodAmountText = this.add.text(120, 160, '0', this._fontStyle);
         this._health = 10;
 
         this._collectibleGroup = this.add.group();
@@ -100,7 +101,7 @@ export default class extends Phaser.State {
 
         this.updatePlayer();
         this.updateCollectibles();
-        this.updateFoodAndDrinkAmount();
+        this.updateDrinkAmount();
 
         if (this.isGameOver()) {
             this.showGameOver();
@@ -153,6 +154,7 @@ export default class extends Phaser.State {
             if (this._facing !== 'left') {
                 this._facing = 'left';
                 this._player.scale.x = -1;
+                this.updateFoodAmount();
             }
         } else if (this._cursors.right.isDown) {
             this._player.body.velocity.x = moveSpeed;
@@ -160,6 +162,7 @@ export default class extends Phaser.State {
             if (this._facing !== 'right') {
                 this._facing = 'right';
                 this._player.scale.x = 1;
+                this.updateFoodAmount();
             }
         }
     }
@@ -184,13 +187,16 @@ export default class extends Phaser.State {
         this._face.frame = 3;
         this._face.scale.x = uiFace.scale;
         this._face.scale.y = uiFace.scale;
+
+        this.setDrinkText(this._drinkAmount);
+        this.setFoodText(this._drinkAmount);
     }
 
     collideWithPlayer(player, collectible) {
         this.playerCollectedItem(collectible);
     }
 
-    updateFoodAndDrinkAmount() {
+    updateDrinkAmount() {
         this._drinkTimer += this.time.elapsed;
         if (this._drinkTimer > gameConfig.drinkDecrementTimeMilliSeconds) {
             this._drinkTimer = 0;
@@ -199,13 +205,28 @@ export default class extends Phaser.State {
             if (this._drinkAmount < 0) {
                 this._drinkAmount = 0;
             }
+            this.setDrinkText(this._drinkAmount);
 
             // TODO Remove - Testing face frames
             this._face.frame += 1;
             this._face.frame = this._face.frame % 13;
         }
+    }
 
-        this._drinkAmountText.setText(this._drinkAmount);
+    updateFoodAmount() {
+        this._foodAmount -= gameConfig.foodDecrementPerMove;
+        if (this._foodAmount < 0) {
+            this._foodAmount = 0;
+        }
+        this.setFoodText(this._foodAmount);
+    }
+
+    setDrinkText(amount) {
+        this._drinkAmountText.setText(`Drink: ${amount}`);
+    }
+
+    setFoodText(amount) {
+        this._foodAmountText.setText(`Food: ${amount}`);
     }
 
     spawnCollectible() {
@@ -235,12 +256,14 @@ export default class extends Phaser.State {
     playerCollectedItem(collectible) {
         collectible.kill();
 
-        this._score += collectible.collectibleType.points;
+        const points = collectible.collectibleType.points;
+        this._score += points;
 
         this._scoreText.setText(this._score);
 
         // TODO Determine whether it's food or drink and update accordingly
-        this._drinkAmount += 10;
+        this._drinkAmount += points;
+        this._foodAmount += points;
         if (this._drinkAmount > gameConfig.drinkMaximumAmount) {
             this._drinkAmount = gameConfig.drinkMaximumAmount;
         }
