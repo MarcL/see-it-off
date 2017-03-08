@@ -19,7 +19,7 @@ export default class extends Phaser.State {
         this.load.spritesheet('monster-idle', './assets/img/monster-idle.png', 103, 131);
         this.load.spritesheet('button-start', './assets/img/button-start.png', 401, 143);
         this.load.spritesheet('faces', './assets/img/player/faces.png', 256, 256);
-        this.load.spritesheet('collectibles', './assets/img/food-drink.png',256, 256);
+        this.load.spritesheet('collectibles', './assets/img/food-drink.png', 256, 256);
     }
 
     create() {
@@ -36,10 +36,6 @@ export default class extends Phaser.State {
             'game-over': './assets/img/gameover.png',
             'score-bg': './assets/img/score-bg.png',
             'button-pause': './assets/img/button-pause.png',
-            'player-neutral': './assets/img/player/tom-neutral.png',
-            'player-drunk-1': './assets/img/player/tom-drunk-level-1.png',
-            'player-drunk-2': './assets/img/player/tom-drunk-level-2.png',
-            'player-drunk-3': './assets/img/player/tom-drunk-level-3.png',
             mushroom: './assets/images/mushroom2.png',
         };
 

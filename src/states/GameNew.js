@@ -1,8 +1,9 @@
 /* globals __DEV__ */
 import Phaser from 'phaser';
-import Mushroom from '../sprites/Mushroom';
+import Collectible from '../sprites/Collectible';
 
 import config from '../config';
+import collectibles from '../config/collectibles';
 
 // TODO Move to a file
 const gameConfig = {
@@ -10,13 +11,13 @@ const gameConfig = {
     drinkDecrementTimeMilliSeconds: 1000,
     drinkMaximumAmount: 250,
     foodDecrementPerMove: 2,
-    playerInitialMoveSpeed: 300,
+    playerInitialMoveSpeed: 400,
     playerMaxDragMultiplier: 0.4,
-    playerYPosition: 640,
+    playerYPosition: 1460,
     ui: {
         face: {
-            position: [450, 740],
-            scale: 0.75,
+            position: [800, 1600],
+            scale: 1,
         },
     },
 };
@@ -25,8 +26,8 @@ export default class extends Phaser.State {
     init() {
         // define needed variables for this.Game
         this._player = null;
-        this._candyGroup = null;
-        this._spawnCandyTimer = 0;
+        this._collectibleGroup = null;
+        this._spawnTimer = 0;
         this._drinkTimer = 0;
         this._fontStyle = null;
         this._face = null;
@@ -68,7 +69,7 @@ export default class extends Phaser.State {
             align: 'center',
         };
         // initialize the spawn timer
-        this._spawnCandyTimer = 0;
+        this._spawnTimer = 0;
         this._drinkTimer = 0;
         // initialize the score text with 0
         this._scoreText = this.add.text(120, 20, "0", this._fontStyle);
@@ -76,12 +77,11 @@ export default class extends Phaser.State {
         // set health of the player
         this._health = 10;
         // create new group for candy
-        this._candyGroup = this.add.group();
+        this._collectibleGroup = this.add.group();
 
         this._missedItems = 0;
 
-        // spawn first candy
-        this.spawnCandy();
+        this.spawnCollectible();
 
         this.initialisePlayer();
         this.initialiseUi();
@@ -103,7 +103,7 @@ export default class extends Phaser.State {
 
     update() {
         // update timer every frame
-        this._spawnCandyTimer += this.time.elapsed;
+        this._spawnTimer += this.time.elapsed;
 
         this.updatePlayer();
         this.updateObjects();
@@ -120,22 +120,18 @@ export default class extends Phaser.State {
 
     updateObjects() {
         // if spawn timer reach one second (1000 miliseconds)
-        if (this._spawnCandyTimer > 1000) {
-            // reset it
-            this._spawnCandyTimer = 0;
-            // and spawn new candy
-            this.spawnCandy();
+        if (this._spawnTimer > 1000) {
+            this._spawnTimer = 0;
+            this.spawnCollectible();
         }
 
-        // loop through all candy on the screen
-        this._candyGroup.forEach((candy) => {
-            // to rotate them accordingly
-            candy.angle += candy.rotateMe;
+        this._collectibleGroup.forEach((collectible) => {
+            collectible.update();
         });
 
         this.physics.arcade.overlap(
             this._player,
-            this._candyGroup,
+            this._collectibleGroup,
             this.collideWithPlayer,
             null,
             this
@@ -214,42 +210,28 @@ export default class extends Phaser.State {
         this._drinkAmountText.setText(this._drinkAmount);
     }
 
-    spawnCandy() {
-        // calculate drop position (from 0 to game width) on the x axis
+    spawnCollectible() {
         const dropPos = Math.floor(Math.random() * config.gameWidth);
+        const dropOffset = 0;
 
-        // define the offset for every candy
-        const dropOffset = [-27, -36, -36, -38, -48];
+        // Choose collectible type
+        const foodOrDrink = Math.floor(Math.random() * 100);
+        const collectibleTypeList = (foodOrDrink >= 50) ? collectibles.food : collectibles.drinks;
 
-        // randomize candy type
-        const candyType = Math.floor(Math.random() * 4);
+        // TODO - Comment in when all graphics are available
+        const randomTypeIndex = Math.floor(Math.random() * collectibleTypeList.length);
+        const collectibleType = collectibleTypeList[randomTypeIndex];
 
-        // create new candy
-        const candy = this.add.sprite(dropPos, dropOffset[candyType], 'collectibles');
-        candy.scale.x = 0.5;
-        candy.scale.y = 0.5;
+        const collectible = new Collectible({
+            game: this,
+            x: dropPos,
+            y: dropOffset,
+            asset: 'collectibles',
+            collectibleType,
+            onOutOfBounds: this.onCollectibleOutOfBounds,
+        });
 
-        // add new animation frame
-        candy.animations.add('anim', [candyType], 10, true);
-        // play the newly created animation
-        candy.animations.play('anim');
-        // enable candy body for physic engine
-        this.physics.enable(candy, Phaser.Physics.ARCADE);
-
-        // enable candy to be clicked/tapped
-        candy.inputEnabled = true;
-        // add event listener to click/tap
-        candy.events.onInputDown.add(this.collectedCandy, this);
-        // be sure that the candy will fire an event when it goes out of the screen
-        candy.checkWorldBounds = true;
-        // reset candy when it goes out of screen
-        candy.events.onOutOfBounds.add(this.removeCandy, this);
-        // set the anchor (for rotation, position etc) to the middle of the candy
-        candy.anchor.setTo(0.5, 0.5);
-        // set the random rotation value
-        candy.rotateMe = (Math.random() * 4) - 2;
-        // add candy to the group
-        this._candyGroup.add(candy);
+        this._collectibleGroup.add(collectible);
     }
 
     collectedCandy(candy) {
@@ -267,12 +249,10 @@ export default class extends Phaser.State {
         }
     }
 
-    removeCandy(candy) {
-        // kill the candy
-        candy.kill();
-        this._health = 10;
-        // decrease player's health
-        // Candy._health -= 10;
-        // Candy._missedItems += 1;
+    onCollectibleOutOfBounds(collectible) {
+        collectible.kill();
+        this._missedItems += 1;
+
+        // TODO - Reduce food / drink amount because of this?
     }
 }

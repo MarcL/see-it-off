@@ -4,7 +4,8 @@
         "import"
     ],
     "rules": {
-        "indent": [2, 4]
+        "indent": [2, 4],
+        "object-curly-spacing": "off"
     },
     "globals": {
         "window": true
