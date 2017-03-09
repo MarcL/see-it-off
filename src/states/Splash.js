@@ -10,10 +10,10 @@ export default class extends Phaser.State {
 
         this.loadImages();
 
-        this.load.spritesheet('monster-idle', './assets/img/monster-idle.png', 103, 131);
-        this.load.spritesheet('button-start', './assets/img/button-start.png', 401, 143);
-        this.load.spritesheet('faces', './assets/img/player/faces.png', 256, 256);
-        this.load.spritesheet('collectibles', './assets/img/food-drink.png', 256, 256);
+        this.load.spritesheet('monster-idle', './assets/images/monster-idle.png', 103, 131);
+        this.load.spritesheet('button-start', './assets/images/button-start.png', 401, 143);
+        this.load.spritesheet('faces', './assets/images/player/faces.png', 256, 256);
+        this.load.spritesheet('collectibles', './assets/images/food-drink.png', 256, 256);
     }
 
     create() {
@@ -23,12 +23,12 @@ export default class extends Phaser.State {
     loadImages() {
         // TODO: Move these to a data file
         const imageMap = {
-            background: './assets/img/background.png',
-            'monster-cover': './assets/img/monster-cover.png',
-            title: './assets/img/title.png',
-            'game-over': './assets/img/gameover.png',
-            'score-bg': './assets/img/score-bg.png',
-            'button-pause': './assets/img/button-pause.png'
+            background: './assets/images/background.png',
+            'monster-cover': './assets/images/monster-cover.png',
+            title: './assets/images/title.png',
+            'game-over': './assets/images/gameover.png',
+            'score-bg': './assets/images/score-bg.png',
+            'button-pause': './assets/images/button-pause.png'
         };
 
         Object.keys(imageMap).forEach((id) => {
