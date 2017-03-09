@@ -146,7 +146,7 @@ export default class extends Phaser.State {
         const moveSpeed = gameConfig.playerInitialMoveSpeed * speedMultiplier;
         this._player.body.velocity.x = 0;
 
-        if (this._cursors.left.isDown) {
+        if (this.isLeftPressed()) {
             this._player.body.velocity.x = -moveSpeed;
 
             if (this._facing !== 'left') {
@@ -154,7 +154,7 @@ export default class extends Phaser.State {
                 this._player.scale.x = -1;
                 this.updateFoodAmount();
             }
-        } else if (this._cursors.right.isDown) {
+        } else if (this.isRightPressed()) {
             this._player.body.velocity.x = moveSpeed;
 
             if (this._facing !== 'right') {
@@ -163,6 +163,30 @@ export default class extends Phaser.State {
                 this.updateFoodAmount();
             }
         }
+    }
+
+    isLeftPressed() {
+        return this._cursors.left.isDown || this.hasTouchedLeft();
+    }
+
+    isRightPressed() {
+        return this._cursors.right.isDown || this.hasTouchedRight();
+    }
+
+    hasTouchedLeft() {
+        if (this.input.activePointer.isDown) {
+            return (this.input.activePointer.worldX < (config.gameWidth / 2));
+        }
+
+        return false;
+    }
+
+    hasTouchedRight() {
+        if (this.input.activePointer.isDown) {
+            return (this.input.activePointer.worldX > (config.gameWidth / 2));
+        }
+
+        return false;
     }
 
     initialisePlayer() {
