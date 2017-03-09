@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // Phaser webpack config
 const phaserModule = path.join(__dirname, '/node_modules/phaser-ce/');
@@ -31,11 +32,15 @@ module.exports = {
     plugins: [
         definePlugin,
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor'/* chunkName= */, filename: 'vendor.bundle.js'/* filename= */ }),
+        new CopyWebpackPlugin([
+            {from: 'assets', to: 'assets'},
+            {from: 'index.html'}
+        ]),
         new BrowserSyncPlugin({
             host: process.env.IP || 'localhost',
             port: process.env.PORT || 3000,
             server: {
-                baseDir: ['./', './build'],
+                baseDir: ['./dist', './build'],
             },
         }),
     ],
