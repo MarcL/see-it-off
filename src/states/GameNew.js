@@ -16,6 +16,8 @@ const gameConfig = {
     playerInitialMoveSpeed: 400,
     playerMaxDragMultiplier: 0.4,
     playerYPosition: 1460,
+    minimumSpawnTime: 1800,
+    maximumSpawnTime: 3300,
     ui: {
         face: {
             position: [800, 1600],
@@ -24,11 +26,16 @@ const gameConfig = {
     },
 };
 
+function randomIntegerBetween(min, max) {
+    return Math.floor((Math.random() * (max - min)) + min);
+}
+
 export default class extends Phaser.State {
     init() {
         this._player = null;
         this._collectibleGroup = null;
         this._spawnTimer = 0;
+        this._nextSpawnTime = 0;
         this._drinkTimer = 0;
         this._fontStyle = null;
         this._face = null;
@@ -74,8 +81,6 @@ export default class extends Phaser.State {
         this._collectibleGroup = this.add.group();
 
         this._missedItems = 0;
-
-        this.spawnCollectible();
 
         this.initialisePlayer();
         this.initialiseUi();
@@ -143,7 +148,6 @@ export default class extends Phaser.State {
 
     setFace(faceFrame) {
         if (faceFrame !== this._face.frame) {
-            console.log(`Changing face to : ${faceFrame}`);
             this._face.frame = faceFrame;
         }
     }
@@ -160,7 +164,7 @@ export default class extends Phaser.State {
     }
 
     updateCollectibles() {
-        if (this._spawnTimer > 1000) {
+        if (this._spawnTimer > this._nextSpawnTime) {
             this._spawnTimer = 0;
             this.spawnCollectible();
         }
@@ -289,15 +293,20 @@ export default class extends Phaser.State {
     }
 
     spawnCollectible() {
-        const dropPos = Math.floor(Math.random() * config.gameWidth);
+        this._nextSpawnTime = randomIntegerBetween(
+            gameConfig.minimumSpawnTime,
+            gameConfig.maximumSpawnTime
+        );
+
+        const dropPos = randomIntegerBetween(0, config.gameWidth);
         const dropOffset = 0;
 
         // Choose collectible type
-        const foodOrDrink = Math.floor(Math.random() * 100);
+        const foodOrDrink = randomIntegerBetween(0, 100);
         const isFood = (foodOrDrink >= 50);
         const collectibleTypeList = isFood ? collectibles.food : collectibles.drinks;
 
-        const randomTypeIndex = Math.floor(Math.random() * collectibleTypeList.length);
+        const randomTypeIndex = randomIntegerBetween(0, collectibleTypeList.length - 1);
         const collectibleType = collectibleTypeList[randomTypeIndex];
 
         const collectible = new Collectible({
