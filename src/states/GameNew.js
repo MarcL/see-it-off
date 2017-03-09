@@ -11,6 +11,7 @@ const gameConfig = {
     drinkDecrementTimeMilliSeconds: 1000,
     drinkMaximumAmount: 250,
     foodDecrementPerMove: 2,
+    foodMaximumAmount: 250,
     playerInitialMoveSpeed: 400,
     playerMaxDragMultiplier: 0.4,
     playerYPosition: 1460,
@@ -108,7 +109,8 @@ export default class extends Phaser.State {
 
     isGameOver() {
         // TODO This should be based on drink/food amount
-        return this._missedItems >= 3;
+        // return this._missedItems >= 3;
+        return false;
     }
 
     showGameOver() {
@@ -210,8 +212,8 @@ export default class extends Phaser.State {
         this._face.scale.x = uiFace.scale;
         this._face.scale.y = uiFace.scale;
 
-        this.setDrinkText(this._drinkAmount);
-        this.setFoodText(this._drinkAmount);
+        this.setDrinkText();
+        this.setFoodText();
     }
 
     collideWithPlayer(player, collectible) {
@@ -227,7 +229,7 @@ export default class extends Phaser.State {
             if (this._drinkAmount < 0) {
                 this._drinkAmount = 0;
             }
-            this.setDrinkText(this._drinkAmount);
+            this.setDrinkText();
 
             // TODO Remove - Testing face frames
             this._face.frame += 1;
@@ -240,15 +242,15 @@ export default class extends Phaser.State {
         if (this._foodAmount < 0) {
             this._foodAmount = 0;
         }
-        this.setFoodText(this._foodAmount);
+        this.setFoodText();
     }
 
-    setDrinkText(amount) {
-        this._drinkAmountText.setText(`Drink: ${amount}`);
+    setDrinkText() {
+        this._drinkAmountText.setText(`Drink: ${this._drinkAmount}`);
     }
 
-    setFoodText(amount) {
-        this._foodAmountText.setText(`Food: ${amount}`);
+    setFoodText() {
+        this._foodAmountText.setText(`Food: ${this._foodAmount}`);
     }
 
     spawnCollectible() {
@@ -257,9 +259,9 @@ export default class extends Phaser.State {
 
         // Choose collectible type
         const foodOrDrink = Math.floor(Math.random() * 100);
-        const collectibleTypeList = (foodOrDrink >= 50) ? collectibles.food : collectibles.drinks;
+        const isFood = (foodOrDrink >= 50);
+        const collectibleTypeList = isFood ? collectibles.food : collectibles.drinks;
 
-        // TODO - Comment in when all graphics are available
         const randomTypeIndex = Math.floor(Math.random() * collectibleTypeList.length);
         const collectibleType = collectibleTypeList[randomTypeIndex];
 
@@ -270,6 +272,7 @@ export default class extends Phaser.State {
             asset: 'collectibles',
             collectibleType,
             onOutOfBounds: this.onCollectibleOutOfBounds,
+            isFood
         });
 
         this._collectibleGroup.add(collectible);
@@ -283,11 +286,22 @@ export default class extends Phaser.State {
 
         this._scoreText.setText(this._score);
 
-        // TODO Determine whether it's food or drink and update accordingly
-        this._drinkAmount += points;
-        this._foodAmount += points;
-        if (this._drinkAmount > gameConfig.drinkMaximumAmount) {
-            this._drinkAmount = gameConfig.drinkMaximumAmount;
+        if (collectible.isFood) {
+            this._foodAmount += points;
+
+            if (this._foodAmount > gameConfig.foodMaximumAmount) {
+                this._foodAmount = gameConfig.foodMaximumAmount;
+            }
+
+            this.setFoodText();
+        } else {
+            this._drinkAmount += points;
+
+            if (this._drinkAmount > gameConfig.drinkMaximumAmount) {
+                this._drinkAmount = gameConfig.drinkMaximumAmount;
+            }
+
+            this.setDrinkText();
         }
     }
 

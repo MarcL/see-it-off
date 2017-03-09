@@ -2,12 +2,11 @@ import Phaser from 'phaser';
 
 export default class extends Phaser.Sprite {
 
-    constructor({game, x, y, asset, collectibleType, onOutOfBounds}) {
+    constructor({game, x, y, asset, collectibleType, onOutOfBounds, isFood}) {
         super(game, x, y, asset);
         this.anchor.setTo(0.5);
 
-        // TODO - Remove % 4 when we've got all sprites
-        this.frame = collectibleType.frameNumber % 5;
+        this.frame = collectibleType.frameNumber;
 
         game.physics.enable(this, Phaser.Physics.ARCADE);
 
@@ -17,6 +16,7 @@ export default class extends Phaser.Sprite {
 
         this.rotateSpeed = (Math.random() * 4) - 2;
         this.collectibleType = collectibleType;
+        this.isFood = isFood;
     }
 
     update() {
