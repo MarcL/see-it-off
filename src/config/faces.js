@@ -1,0 +1,20 @@
+export default {
+    FACE_NEUTRAL: 0,
+
+    FACE_BORED: 1,
+    FACE_ANNOYED: 2,
+    FACE_ANGRY: 3,
+
+
+    FACE_MERRY: 4,
+    FACE_DRUNK: 5,
+    FACE_HAMMERED: 6,
+
+    FACE_GOURMAND: 7,
+    FACE_GLUTTONOUS: 8,
+    FACE_SICK: 9,
+
+    FACE_HAPPY: 10,
+    FACE_CHEERFUL: 11,
+    FACE_LAUGHING: 12,
+};

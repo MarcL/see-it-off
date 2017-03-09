@@ -4,6 +4,7 @@ import Collectible from '../sprites/Collectible';
 
 import config from '../config';
 import collectibles from '../config/collectibles';
+import faces from '../config/faces';
 
 // TODO Move to a file
 const gameConfig = {
@@ -102,8 +103,48 @@ export default class extends Phaser.State {
         this.updateCollectibles();
         this.updateDrinkAmount();
 
+        this.updateText();
+        this.updateFace();
+
         if (this.isGameOver()) {
             this.showGameOver();
+        }
+    }
+
+    updateText() {
+        this.setDrinkText();
+        this.setFoodText();
+    }
+
+    // TODO - needs working out properly once rules are clear
+    updateFace() {
+        const foodDifference = this._foodAmount - this._drinkAmount;
+        const drinkDifference = this._drinkAmount - this._foodAmount;
+        let newFace = faces.FACE_NEUTRAL;
+
+        if (foodDifference > 200) {
+            newFace = faces.FACE_SICK;
+        } else if (foodDifference > 100) {
+            newFace = faces.FACE_GLUTTONOUS;
+        } else if (foodDifference > 50) {
+            newFace = faces.FACE_GOURMAND;
+        }
+
+        if (drinkDifference > 200) {
+            newFace = faces.FACE_HAMMERED;
+        } else if (drinkDifference > 100) {
+            newFace = faces.FACE_DRUNK;
+        } else if (drinkDifference > 50) {
+            newFace = faces.FACE_MERRY;
+        }
+
+        this.setFace(newFace);
+    }
+
+    setFace(faceFrame) {
+        if (faceFrame !== this._face.frame) {
+            console.log(`Changing face to : ${faceFrame}`);
+            this._face.frame = faceFrame;
         }
     }
 
@@ -208,9 +249,9 @@ export default class extends Phaser.State {
     initialiseUi() {
         const uiFace = gameConfig.ui.face;
         this._face = this.add.sprite(uiFace.position[0], uiFace.position[1], 'faces');
-        this._face.frame = 3;
         this._face.scale.x = uiFace.scale;
         this._face.scale.y = uiFace.scale;
+        this.setFace(faces.FACE_NEUTRAL);
 
         this.setDrinkText();
         this.setFoodText();
@@ -229,11 +270,6 @@ export default class extends Phaser.State {
             if (this._drinkAmount < 0) {
                 this._drinkAmount = 0;
             }
-            this.setDrinkText();
-
-            // TODO Remove - Testing face frames
-            this._face.frame += 1;
-            this._face.frame = this._face.frame % 13;
         }
     }
 
@@ -242,7 +278,6 @@ export default class extends Phaser.State {
         if (this._foodAmount < 0) {
             this._foodAmount = 0;
         }
-        this.setFoodText();
     }
 
     setDrinkText() {
@@ -292,16 +327,12 @@ export default class extends Phaser.State {
             if (this._foodAmount > gameConfig.foodMaximumAmount) {
                 this._foodAmount = gameConfig.foodMaximumAmount;
             }
-
-            this.setFoodText();
         } else {
             this._drinkAmount += points;
 
             if (this._drinkAmount > gameConfig.drinkMaximumAmount) {
                 this._drinkAmount = gameConfig.drinkMaximumAmount;
             }
-
-            this.setDrinkText();
         }
     }
 
