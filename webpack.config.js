@@ -34,6 +34,7 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor'/* chunkName= */, filename: 'vendor.bundle.js'/* filename= */ }),
         new CopyWebpackPlugin([
             {from: 'assets', to: 'assets'},
+            {from: 'favicons'},
             {from: 'index.html'}
         ]),
         new BrowserSyncPlugin({

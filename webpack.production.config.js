@@ -38,6 +38,7 @@ module.exports = {
         }),
         new CopyWebpackPlugin([
             {from: 'assets', to: 'assets'},
+            {from: 'favicons'},
             {from: 'index.html'}
         ]),
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor'/* chunkName= */, filename: 'vendor.bundle.js'/* filename= */ }),
