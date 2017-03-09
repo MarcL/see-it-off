@@ -24,7 +24,6 @@ const gameConfig = {
 
 export default class extends Phaser.State {
     init() {
-        // define needed variables for this.Game
         this._player = null;
         this._collectibleGroup = null;
         this._spawnTimer = 0;
@@ -32,7 +31,6 @@ export default class extends Phaser.State {
         this._fontStyle = null;
         this._face = null;
 
-        // define Candy variables to reuse them in this.item functions
         this._scoreText = null;
         this._score = 0;
         this._health = 0;
