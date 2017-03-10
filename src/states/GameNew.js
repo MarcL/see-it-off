@@ -84,6 +84,8 @@ export default class extends Phaser.State {
 
         this.initialisePlayer();
         this.initialiseUi();
+        this.setDrinkText();
+        this.setFoodText();
     }
 
     managePause() {
@@ -108,17 +110,11 @@ export default class extends Phaser.State {
         this.updateCollectibles();
         this.updateDrinkAmount();
 
-        this.updateText();
         this.updateFace();
 
         if (this.isGameOver()) {
             this.showGameOver();
         }
-    }
-
-    updateText() {
-        this.setDrinkText();
-        this.setFoodText();
     }
 
     // TODO - needs working out properly once rules are clear
@@ -274,6 +270,8 @@ export default class extends Phaser.State {
             if (this._drinkAmount < 0) {
                 this._drinkAmount = 0;
             }
+
+            this.setDrinkText();
         }
     }
 
@@ -282,6 +280,7 @@ export default class extends Phaser.State {
         if (this._foodAmount < 0) {
             this._foodAmount = 0;
         }
+        this.setFoodText();
     }
 
     setDrinkText() {
@@ -336,12 +335,16 @@ export default class extends Phaser.State {
             if (this._foodAmount > gameConfig.foodMaximumAmount) {
                 this._foodAmount = gameConfig.foodMaximumAmount;
             }
+
+            this.setFoodText();
         } else {
             this._drinkAmount += points;
 
             if (this._drinkAmount > gameConfig.drinkMaximumAmount) {
                 this._drinkAmount = gameConfig.drinkMaximumAmount;
             }
+
+            this.setDrinkText();
         }
     }
 
