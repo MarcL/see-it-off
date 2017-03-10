@@ -15,7 +15,7 @@ const gameConfig = {
     foodMaximumAmount: 250,
     playerInitialMoveSpeed: 400,
     playerMaxDragMultiplier: 0.4,
-    playerYPosition: 1460,
+    playerYPosition: 1260,
     minimumSpawnTime: 1800,
     maximumSpawnTime: 3300,
     ui: {
@@ -194,7 +194,7 @@ export default class extends Phaser.State {
 
             if (this._facing !== 'left') {
                 this._facing = 'left';
-                this._player.scale.x = -1;
+                this._player.animations.play('move-left');
                 this.updateFoodAmount();
             }
         } else if (this.isRightPressed()) {
@@ -202,7 +202,7 @@ export default class extends Phaser.State {
 
             if (this._facing !== 'right') {
                 this._facing = 'right';
-                this._player.scale.x = 1;
+                this._player.animations.play('move-right');
                 this.updateFoodAmount();
             }
         }
@@ -233,9 +233,11 @@ export default class extends Phaser.State {
     }
 
     initialisePlayer() {
-        this._player = this.add.sprite(config.gameWidth * 0.5, gameConfig.playerYPosition, 'monster-idle');
-
-        this._player.animations.add('idle', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 10, true);
+        this._player = this.add.sprite(config.gameWidth * 0.5, gameConfig.playerYPosition, 'player');
+        this._player.scale = {x: 1.5, y: 1.5};
+        this._player.animations.add('idle', [0, 1, 2, 3], 10, true);
+        this._player.animations.add('move-left', [4, 5, 6, 7], 10, true);
+        this._player.animations.add('move-right', [8, 9, 10, 11], 10, true);
         this._player.animations.play('idle');
 
         this._cursors = this.game.input.keyboard.createCursorKeys();

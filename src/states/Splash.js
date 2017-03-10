@@ -10,10 +10,10 @@ export default class extends Phaser.State {
 
         this.loadImages();
 
-        this.load.spritesheet('monster-idle', './assets/images/monster-idle.png', 103, 131);
         this.load.spritesheet('button-start', './assets/images/button-start.png', 401, 143);
         this.load.spritesheet('faces', './assets/images/player/faces.png', 256, 256);
         this.load.spritesheet('collectibles', './assets/images/food-drink.png', 256, 256);
+        this.load.spritesheet('player', './assets/images/player/player-anims.png', 218, 218);
     }
 
     create() {
