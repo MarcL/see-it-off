@@ -44,7 +44,7 @@ export default class extends Phaser.State {
         this._score = 0;
         this._health = 0;
         this._cursors = null;
-        this._facing = 'right';
+        this._facing = 'idle';
         this._missedItems = 0;
         this._drinkAmount = 0;
         this._drinkAmountText = null;
@@ -205,6 +205,9 @@ export default class extends Phaser.State {
                 this._player.animations.play('move-right');
                 this.updateFoodAmount();
             }
+        } else if (this._facing !== 'idle') {
+            this._facing = 'idle';
+            this._player.animations.play('idle');
         }
     }
 
