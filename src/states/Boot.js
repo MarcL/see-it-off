@@ -21,6 +21,9 @@ export default class extends Phaser.State {
             google: {
                 families: ['Bangers'],
             },
+            custom: {
+                families: ['eraserregular', 'dinregular']
+            },
             active: this.fontsLoaded,
         });
 
