@@ -3,7 +3,7 @@ import WebFont from 'webfontloader';
 
 export default class extends Phaser.State {
     init() {
-        this.stage.backgroundColor = '#add';
+        this.stage.backgroundColor = '#e6c499';
         this.fontsReady = false;
         this.fontsLoaded = this.fontsLoaded.bind(this);
     }
@@ -24,7 +24,7 @@ export default class extends Phaser.State {
             active: this.fontsLoaded,
         });
 
-        this.load.image('preloaderBar', './assets/images/loading-bar.png');
+        this.load.spritesheet('bars', './assets/images/ui/bars2.png', 500, 66);
     }
 
     render() {

@@ -58,8 +58,8 @@ export default class extends Phaser.State {
             'pause-button',
             this.managePause,
             this,
-            0,
-            1
+            1,
+            0
         );
 
         this._fontStyle = {

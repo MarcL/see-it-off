@@ -15,8 +15,8 @@ export default class extends Phaser.State {
             'play-button',
             this.startGame,
             this,
-            0,
-            1
+            1,
+            0
         );
 
         // TODO - Add in if have time

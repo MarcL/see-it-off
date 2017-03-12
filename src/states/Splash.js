@@ -5,7 +5,8 @@ import config from '../config';
 export default class extends Phaser.State {
     preload() {
         this.stage.backgroundColor = '#225d6b';
-        this.preloadBar = this.add.sprite((config.gameWidth - 311) / 2, (config.gameHeight - 27) / 2, 'preloaderBar');
+        this.preloadBar = this.add.sprite((config.gameWidth - 311) / 2, (config.gameHeight - 27) / 2, 'bars', 1);
+        this.preloadBar.anchor.setTo(0, 0.5);
         this.load.setPreloadSprite(this.preloadBar);
 
         this.loadImages();
@@ -18,7 +19,6 @@ export default class extends Phaser.State {
         this.load.spritesheet('play-button', './assets/images/ui/play-button.png', 629, 233);
         this.load.spritesheet('pause-button', './assets/images/ui/pause-button.png', 87, 76);
         this.load.spritesheet('rules-button', './assets/images/ui/rules-button.png', 448, 136);
-        this.load.spritesheet('bars', './assets/images/ui/bars2.png', 500, 66);
     }
 
     create() {
