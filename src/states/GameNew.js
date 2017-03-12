@@ -79,9 +79,6 @@ export default class extends Phaser.State {
         this._spawnTimer = 0;
         this._drinkTimer = 0;
 
-        this._drinkAmountText = this.add.text(120, 80, '0', this._fontStyle);
-        this._foodAmountText = this.add.text(120, 160, '0', this._fontStyle);
-
         this._collectibleGroup = this.add.group();
 
         this.initialisePlayer();
@@ -289,6 +286,9 @@ export default class extends Phaser.State {
         this._drinksBar = this.add.sprite(config.gameWidth * 0.18, config.gameHeight * 0.935, 'bars', 2);
         this._drinksBar.scale.x = 1;
         this._drinksBar.anchor.setTo(0, 0.5);
+
+        this._foodAmountText = this.add.text(config.gameWidth * 0.18, config.gameHeight * 0.825, '0', this._fontStyle);
+        this._drinkAmountText = this.add.text(config.gameWidth * 0.18, config.gameHeight * 0.92, '0', this._fontStyle);
 
         this.setDrinkText();
         this.setFoodText();
