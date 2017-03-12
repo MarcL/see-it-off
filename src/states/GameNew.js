@@ -51,6 +51,7 @@ export default class extends Phaser.State {
     }
 
     create() {
+        this.game.time.advancedTiming = true;
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
         this.physics.arcade.gravity.y = 200;
@@ -407,5 +408,9 @@ export default class extends Phaser.State {
         this._scoreText.fill = '#111';
         this._scoreText.smoothed = false;
         this._scoreText.anchor.setTo(0.5);
+    }
+
+    render() {
+        this.game.debug.text(this.game.time.fps, 2, 14, '#fff');
     }
 }
