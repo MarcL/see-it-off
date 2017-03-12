@@ -4,7 +4,7 @@ import config from '../config';
 
 export default class extends Phaser.State {
     preload() {
-        this.stage.backgroundColor = '#B4D9E7';
+        this.stage.backgroundColor = '#225d6b';
         this.preloadBar = this.add.sprite((config.gameWidth - 311) / 2, (config.gameHeight - 27) / 2, 'preloaderBar');
         this.load.setPreloadSprite(this.preloadBar);
 
@@ -27,9 +27,12 @@ export default class extends Phaser.State {
     loadImages() {
         // TODO: Move these to a data file
         const imageMap = {
-            background: './assets/images/background.png',
+            'background-game': './assets/images/background-game.png',
+            'background-landing': './assets/images/background-landing.png',
             'game-over': './assets/images/gameover.png',
-            'score-bg': './assets/images/score-bg.png'
+            'background-face': './assets/images/ui/background-face.png',
+            'score-bar': './assets/images/ui/score-bar.png',
+            frame: './assets/images/ui/frame.png'
         };
 
         Object.keys(imageMap).forEach((id) => {

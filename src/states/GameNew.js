@@ -15,7 +15,7 @@ const gameConfig = {
     foodMaximumAmount: 250,
     playerInitialMoveSpeed: 400,
     playerMaxDragMultiplier: 0.4,
-    playerYPosition: 1260,
+    playerYPosition: 960,
     minimumSpawnTime: 1800,
     maximumSpawnTime: 3300,
     ui: {
@@ -57,8 +57,7 @@ export default class extends Phaser.State {
 
         this.physics.arcade.gravity.y = 200;
 
-        this.add.sprite(0, 0, 'background');
-        this.add.sprite(10, 5, 'score-bg');
+        this.add.sprite(0, 0, 'background-game');
 
         this.add.button(config.gameWidth * 0.86, config.gameHeight * 0.03, 'pause-button', this.managePause, this, 0, 1);
 
@@ -83,11 +82,14 @@ export default class extends Phaser.State {
         this._missedItems = 0;
 
         this.initialisePlayer();
+
+        this.add.sprite(0, 0, 'frame');
         this.initialiseUi();
+
         this.setDrinkText();
         this.setFoodText();
 
-        this.createBannerText();
+//        this.createBannerText();
     }
 
     managePause() {
@@ -253,12 +255,22 @@ export default class extends Phaser.State {
         this._player.anchor.setTo(0.5, 0);
     }
 
+    // TODO - Unify UI positions
     initialiseUi() {
+        const faceBg = {
+            x: config.gameWidth * 0.83,
+            y: config.gameHeight * 0.89
+        };
+        const faceBackground = this.add.sprite(faceBg.x, faceBg.y, 'background-face');
+        faceBackground.anchor.setTo(0.5, 0.5);
+
         const uiFace = gameConfig.ui.face;
-        this._face = this.add.sprite(uiFace.position[0], uiFace.position[1], 'faces');
-        this._face.scale.x = uiFace.scale;
-        this._face.scale.y = uiFace.scale;
+        this._face = this.add.sprite(faceBg.x + 4, faceBg.y + 10, 'faces');
+        this._face.anchor.setTo(0.5, 0.5);
         this.setFace(faces.FACE_NEUTRAL);
+
+        const scoreBar = this.add.sprite(faceBg.x, faceBg.y + 130, 'score-bar');
+        scoreBar.anchor.setTo(0.5, 0.5);
 
         this.setDrinkText();
         this.setFoodText();
@@ -304,7 +316,7 @@ export default class extends Phaser.State {
             gameConfig.maximumSpawnTime
         );
 
-        const dropPos = randomIntegerBetween(0, config.gameWidth);
+        const dropPos = randomIntegerBetween(config.gameWidth * 0.05, config.gameWidth * 0.95);
         const dropOffset = 0;
 
         // Choose collectible type

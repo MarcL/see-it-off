@@ -3,15 +3,15 @@ import config from '../config';
 
 export default class extends Phaser.State {
     create() {
-        this.add.sprite(0, 0, 'background');
+        this.add.sprite(0, 0, 'background-landing');
 
-        const player = this.add.sprite(config.gameWidth * 0.1, config.gameHeight * 0.7, 'animation-menu');
+        const player = this.add.sprite(config.gameWidth * 0.1, config.gameHeight * 0.65, 'animation-menu');
         player.animations.add('idle', [0, 1], 4, true);
         player.animations.play('idle');
 
         this.add.button(
             config.gameWidth * 0.2,
-            config.gameHeight * 0.3,
+            config.gameHeight * 0.34,
             'play-button',
             this.startGame,
             this,
@@ -22,7 +22,7 @@ export default class extends Phaser.State {
         // TODO - Add in if have time
         // this.add.button(
         //     config.gameWidth * 0.29,
-        //     config.gameHeight * 0.5,
+        //     config.gameHeight * 0.55,
         //     'rules-button',
         //     this.showRules,
         //     this,
