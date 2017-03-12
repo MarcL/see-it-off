@@ -42,7 +42,6 @@ export default class extends Phaser.State {
 
         this._scoreText = null;
         this._score = 0;
-        this._health = 0;
         this._cursors = null;
         this._facing = 'idle';
         this._drinkAmount = 0;
@@ -73,7 +72,6 @@ export default class extends Phaser.State {
 
         this._drinkAmountText = this.add.text(120, 80, '0', this._fontStyle);
         this._foodAmountText = this.add.text(120, 160, '0', this._fontStyle);
-        this._health = 10;
 
         this._collectibleGroup = this.add.group();
 
