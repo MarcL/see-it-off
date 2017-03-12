@@ -18,9 +18,6 @@ export default class extends Phaser.State {
 
     preload() {
         WebFont.load({
-            google: {
-                families: ['Bangers'],
-            },
             custom: {
                 families: ['eraserregular', 'dinregular']
             },

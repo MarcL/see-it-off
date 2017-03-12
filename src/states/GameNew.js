@@ -60,7 +60,7 @@ export default class extends Phaser.State {
         this.add.sprite(0, 0, 'background');
         this.add.sprite(10, 5, 'score-bg');
 
-        this.add.button(config.gameWidth - 96 - 10, 5, 'button-pause', this.managePause, this);
+        this.add.button(config.gameWidth * 0.86, config.gameHeight * 0.03, 'pause-button', this.managePause, this, 0, 1);
 
         this._fontStyle = {
             font: '40px Arial',
