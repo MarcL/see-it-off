@@ -72,7 +72,6 @@ export default class extends Phaser.State {
         this._spawnTimer = 0;
         this._drinkTimer = 0;
 
-        this._scoreText = this.add.text(120, 20, '0', this._fontStyle);
         this._drinkAmountText = this.add.text(120, 80, '0', this._fontStyle);
         this._foodAmountText = this.add.text(120, 160, '0', this._fontStyle);
         this._health = 10;
@@ -268,8 +267,14 @@ export default class extends Phaser.State {
         this._face.anchor.setTo(0.5, 0.5);
         this.setFace(faces.FACE_NEUTRAL);
 
-        const scoreBar = this.add.sprite(faceBg.x, faceBg.y + 130, 'score-bar');
+        const scorePos = {
+            x: faceBg.x,
+            y: faceBg.y + 130
+        };
+        const scoreBar = this.add.sprite(scorePos.x, scorePos.y, 'score-bar');
         scoreBar.anchor.setTo(0.5, 0.5);
+
+        this.createScoreText(scorePos);
 
         this.add.sprite(config.gameWidth * 0.02, config.gameHeight * 0.82, 'food-bar');
         this.add.sprite(config.gameWidth * 0.03, config.gameHeight * 0.9, 'drinks-bar');
@@ -385,5 +390,14 @@ export default class extends Phaser.State {
         banner.fill = '#fff';
         banner.smoothed = false;
         banner.anchor.setTo(0.5);
+    }
+
+    createScoreText(position) {
+        this._scoreText = this.add.text(position.x, position.y, '0', this._fontStyle);
+        this._scoreText.font = 'dinregular';
+        this._scoreText.fontSize = 40;
+        this._scoreText.fill = '#111';
+        this._scoreText.smoothed = false;
+        this._scoreText.anchor.setTo(0.5);
     }
 }
