@@ -10,8 +10,10 @@ import faces from '../config/faces';
 const gameConfig = {
     drinkDecrementPerTimeUnit: 1,
     drinkDecrementTimeMilliSeconds: 1000,
+    drinkMinimumAmount: -250,
     drinkMaximumAmount: 250,
     foodDecrementPerMove: 2,
+    foodMinimumAmount: -250,
     foodMaximumAmount: 250,
     playerInitialMoveSpeed: 400,
     playerMaxDragMultiplier: 0.4,
@@ -40,10 +42,12 @@ export default class extends Phaser.State {
         this._score = 0;
         this._cursors = null;
         this._facing = 'idle';
-        this._drinkAmount = 0;
-        this._drinkAmountText = null;
-        this._foodAmount = 0;
-        this._foodAmountText = null;
+        // this._drinkAmountText = null;
+        // this._foodAmountText = null;
+        this._foodMaximumTotal = gameConfig.foodMaximumAmount - gameConfig.foodMinimumAmount;
+        this._drinkMaximumTotal = gameConfig.drinkMaximumAmount - gameConfig.drinkMinimumAmount;
+        this._foodAmount = this._foodMaximumTotal / 2;
+        this._drinkAmount = this._drinkMaximumTotal / 2;
     }
 
     create() {
@@ -79,8 +83,8 @@ export default class extends Phaser.State {
 
         this.initialiseUi();
 
-        this.setDrinkText();
-        this.setFoodText();
+        this.setDrinksBar();
+        this.setFoodBar();
 
 //        this.createBannerText();
     }
@@ -281,11 +285,11 @@ export default class extends Phaser.State {
         this._drinksBar.scale.x = 1;
         this._drinksBar.anchor.setTo(0, 0.5);
 
-        this._foodAmountText = this.add.text(config.gameWidth * 0.18, config.gameHeight * 0.825, '0', this._fontStyle);
-        this._drinkAmountText = this.add.text(config.gameWidth * 0.18, config.gameHeight * 0.92, '0', this._fontStyle);
+        // this._foodAmountText = this.add.text(config.gameWidth * 0.18, config.gameHeight * 0.825, '0', this._fontStyle);
+        // this._drinkAmountText = this.add.text(config.gameWidth * 0.18, config.gameHeight * 0.92, '0', this._fontStyle);
 
-        this.setDrinkText();
-        this.setFoodText();
+        this.setDrinksBar();
+        this.setFoodBar();
     }
 
     collideWithPlayer(player, collectible) {
@@ -302,7 +306,7 @@ export default class extends Phaser.State {
                 this._drinkAmount = 0;
             }
 
-            this.setDrinkText();
+            this.setDrinksBar();
         }
     }
 
@@ -311,15 +315,17 @@ export default class extends Phaser.State {
         if (this._foodAmount < 0) {
             this._foodAmount = 0;
         }
-        this.setFoodText();
+        this.setFoodBar();
     }
 
-    setDrinkText() {
-        this._drinkAmountText.setText(`Drink: ${this._drinkAmount}`);
+    setDrinksBar() {
+        // this._drinkAmountText.setText(`Drink: ${this._drinkAmount}`);
+        this._drinksBar.scale.x = (this._drinkAmount / this._drinkMaximumTotal);
     }
 
-    setFoodText() {
-        this._foodAmountText.setText(`Food: ${this._foodAmount}`);
+    setFoodBar() {
+        // this._foodAmountText.setText(`Food: ${this._foodAmount}`);
+        this._foodBar.scale.x = (this._foodAmount / this._foodMaximumTotal);
     }
 
     spawnCollectible() {
@@ -367,7 +373,7 @@ export default class extends Phaser.State {
                 this._foodAmount = gameConfig.foodMaximumAmount;
             }
 
-            this.setFoodText();
+            this.setFoodBar();
         } else {
             this._drinkAmount += points;
 
@@ -375,7 +381,7 @@ export default class extends Phaser.State {
                 this._drinkAmount = gameConfig.drinkMaximumAmount;
             }
 
-            this.setDrinkText();
+            this.setDrinksBar();
         }
     }
 
