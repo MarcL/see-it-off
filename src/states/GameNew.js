@@ -18,12 +18,6 @@ const gameConfig = {
     playerYPosition: 960,
     minimumSpawnTime: 1800,
     maximumSpawnTime: 3300,
-    ui: {
-        face: {
-            position: [800, 1600],
-            scale: 1,
-        },
-    },
 };
 
 function randomIntegerBetween(min, max) {
