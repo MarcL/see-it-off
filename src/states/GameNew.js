@@ -264,13 +264,15 @@ export default class extends Phaser.State {
         const faceBackground = this.add.sprite(faceBg.x, faceBg.y, 'background-face');
         faceBackground.anchor.setTo(0.5, 0.5);
 
-        const uiFace = gameConfig.ui.face;
         this._face = this.add.sprite(faceBg.x + 4, faceBg.y + 10, 'faces');
         this._face.anchor.setTo(0.5, 0.5);
         this.setFace(faces.FACE_NEUTRAL);
 
         const scoreBar = this.add.sprite(faceBg.x, faceBg.y + 130, 'score-bar');
         scoreBar.anchor.setTo(0.5, 0.5);
+
+        this.add.sprite(config.gameWidth * 0.02, config.gameHeight * 0.82, 'food-bar');
+        this.add.sprite(config.gameWidth * 0.03, config.gameHeight * 0.9, 'drinks-bar');
 
         this.setDrinkText();
         this.setFoodText();

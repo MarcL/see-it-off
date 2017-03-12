@@ -32,7 +32,9 @@ export default class extends Phaser.State {
             'game-over': './assets/images/gameover.png',
             'background-face': './assets/images/ui/background-face.png',
             'score-bar': './assets/images/ui/score-bar.png',
-            frame: './assets/images/ui/frame.png'
+            frame: './assets/images/ui/frame.png',
+            'food-bar': './assets/images/ui/food-bar.png',
+            'drinks-bar': './assets/images/ui/drinks-bar.png'
         };
 
         Object.keys(imageMap).forEach((id) => {
