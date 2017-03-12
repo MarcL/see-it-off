@@ -45,7 +45,6 @@ export default class extends Phaser.State {
         this._health = 0;
         this._cursors = null;
         this._facing = 'idle';
-        this._missedItems = 0;
         this._drinkAmount = 0;
         this._drinkAmountText = null;
         this._foodAmount = 0;
@@ -77,8 +76,6 @@ export default class extends Phaser.State {
         this._health = 10;
 
         this._collectibleGroup = this.add.group();
-
-        this._missedItems = 0;
 
         this.initialisePlayer();
 
@@ -153,7 +150,6 @@ export default class extends Phaser.State {
 
     isGameOver() {
         // TODO This should be based on drink/food amount
-        // return this._missedItems >= 3;
         return false;
     }
 
@@ -376,9 +372,6 @@ export default class extends Phaser.State {
 
     onCollectibleOutOfBounds(collectible) {
         collectible.kill();
-        this.game._missedItems += 1;
-
-        // TODO - Reduce food / drink amount because of this?
     }
 
     createBannerText() {
