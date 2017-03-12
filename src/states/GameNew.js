@@ -41,6 +41,8 @@ export default class extends Phaser.State {
         this._face = null;
 
         this._scoreText = null;
+        this._foodBar = null;
+        this._drinksBar = null;
         this._score = 0;
         this._cursors = null;
         this._facing = 'idle';
@@ -56,8 +58,15 @@ export default class extends Phaser.State {
         this.physics.arcade.gravity.y = 200;
 
         this.add.sprite(0, 0, 'background-game');
-
-        this.add.button(config.gameWidth * 0.86, config.gameHeight * 0.03, 'pause-button', this.managePause, this, 0, 1);
+        this.add.button(
+            config.gameWidth * 0.86,
+            config.gameHeight * 0.03,
+            'pause-button',
+            this.managePause,
+            this,
+            0,
+            1
+        );
 
         this._fontStyle = {
             font: '40px Arial',
@@ -77,7 +86,6 @@ export default class extends Phaser.State {
 
         this.initialisePlayer();
 
-        this.add.sprite(0, 0, 'frame');
         this.initialiseUi();
 
         this.setDrinkText();
@@ -250,6 +258,8 @@ export default class extends Phaser.State {
 
     // TODO - Unify UI positions
     initialiseUi() {
+        this.add.sprite(0, 0, 'frame');
+
         const faceBg = {
             x: config.gameWidth * 0.83,
             y: config.gameHeight * 0.89
@@ -271,7 +281,14 @@ export default class extends Phaser.State {
         this.createScoreText(scorePos);
 
         this.add.sprite(config.gameWidth * 0.02, config.gameHeight * 0.82, 'food-bar');
+        this._foodBar = this.add.sprite(config.gameWidth * 0.18, config.gameHeight * 0.845, 'bars', 0);
+        this._foodBar.scale.x = 1;
+        this._foodBar.anchor.setTo(0, 0.5);
+
         this.add.sprite(config.gameWidth * 0.03, config.gameHeight * 0.9, 'drinks-bar');
+        this._drinksBar = this.add.sprite(config.gameWidth * 0.18, config.gameHeight * 0.935, 'bars', 2);
+        this._drinksBar.scale.x = 1;
+        this._drinksBar.anchor.setTo(0, 0.5);
 
         this.setDrinkText();
         this.setFoodText();
