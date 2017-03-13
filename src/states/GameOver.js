@@ -11,8 +11,8 @@ export default class extends Phaser.State {
             align: 'center'
         };
 
-        this._scoreText = this.add.text(config.gameWidth * 0.5, config.gameHeight * 0.15, 'GAME OVER', fontStyle);
-        this._scoreText.anchor.setTo(0.5);
+        const gameOverText = this.add.text(config.gameWidth * 0.5, config.gameHeight * 0.15, 'GAME OVER', fontStyle);
+        gameOverText.anchor.setTo(0.5);
 
         const faceBg = {
             x: config.gameWidth * 0.5,

@@ -10,7 +10,8 @@ export default {
         'score-bar': './assets/images/ui/score-bar.png',
         frame: './assets/images/ui/frame.png',
         'food-bar': './assets/images/ui/food-bar.png',
-        'drinks-bar': './assets/images/ui/drinks-bar.png'
+        'drinks-bar': './assets/images/ui/drinks-bar.png',
+        'black-background': './assets/images/ui/black-background.png'
     },
     rules: {
         drinkDecrementPerTimeUnit: 4,

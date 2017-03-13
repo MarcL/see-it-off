@@ -21,6 +21,9 @@ export default class extends Phaser.State {
         this._drinkTimer = 0;
         this._fontStyle = null;
         this._face = null;
+        this._pauseMenu = null;
+        this._resumeButton = null;
+        this._quitButton = null;
 
         this._scoreText = null;
         this._foodBar = null;
@@ -66,24 +69,78 @@ export default class extends Phaser.State {
         this._collectibleGroup = this.add.group();
 
         this.initialiseUi();
+        this.initialisePauseMenu();
 
         this.setDrinksBar();
         this.setFoodBar();
         this.setTotalScore();
     }
 
+    initialisePauseMenu() {
+        this._pauseMenu = this.add.group();
+        const background = this.add.sprite(0, 0, 'black-background');
+        background.scale = {x: 17, y: 26};
+
+        const fontStyle = {
+            font: '100px eraserregular',
+            fill: '#fff',
+            align: 'center'
+        };
+
+        const pausedText = this.add.text(config.gameWidth * 0.5, config.gameHeight * 0.15, 'GAME PAUSED', fontStyle);
+        pausedText.anchor.setTo(0.5);
+
+        this._resumeButton = this.add.button(
+            config.gameWidth * 0.5,
+            config.gameHeight * 0.35,
+            'resume-button',
+            null,
+            null,
+            1,
+            0
+        );
+        this._resumeButton.anchor.setTo(0.5);
+
+        this._quitButton = this.add.button(
+            config.gameWidth * 0.5,
+            config.gameHeight * 0.8,
+            'quit-button',
+            null,
+            null,
+            1,
+            0
+        );
+        this._quitButton.anchor.setTo(0.5);
+
+        this._pauseMenu.add(background);
+        this._pauseMenu.add(pausedText);
+        this._pauseMenu.add(this._resumeButton);
+        this._pauseMenu.add(this._quitButton);
+        this._pauseMenu.visible = false;
+    }
+
     managePause() {
         this.game.paused = true;
-        const pausedText = this.add.text(
-                300,
-                400,
-                'Game paused.\nTap anywhere to continue.',
-                this._fontStyle
-        );
+        this._pauseMenu.visible = true;
 
+        // Phaser stops everything on game.paused so buttons don't function
+        // as expected, hence this hack to check bounds. Short on time! :)
         this.input.onDown.add(() => {
-            pausedText.destroy();
-            this.game.paused = false;
+            if (this.game.paused) {
+                const {x: inputX, y: inputY} = this.game.input;
+
+                if (this._resumeButton.getBounds().contains(inputX, inputY)) {
+                    this._pauseMenu.visible = false;
+                    this.game.paused = false;
+                }
+
+                if (this._quitButton.getBounds().contains(inputX, inputY)) {
+                    this._pauseMenu.visible = false;
+                    this.game.paused = false;
+
+                    this.state.start('MainMenu');
+                }
+            }
         }, this);
     }
 
