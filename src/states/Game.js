@@ -441,8 +441,7 @@ export default class extends Phaser.State {
         const points = collectible.collectibleType.points;
 
         const {x, y} = this._player.position;
-        const mouthYOffset = 175;
-        this.triggerEatParticles(x, y + mouthYOffset);
+        this.triggerEatParticles(x, y + config.player.mouthOffset);
 
         if (collectible.isFood) {
             this._foodAmount += points;

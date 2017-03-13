@@ -27,5 +27,8 @@ export default {
         minimumSpawnTime: 1200,
         maximumSpawnTime: 2500,
     },
-    gravity: 400
+    gravity: 400,
+    player: {
+        mouthOffset: 180
+    }
 };
