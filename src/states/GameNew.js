@@ -151,8 +151,9 @@ export default class extends Phaser.State {
     }
 
     isGameOver() {
-        // TODO This should be based on drink/food amount
-        return false;
+        const noDrinkPoints = (this._drinkAmount <= 0);
+        const noFoodPoints = (this._foodAmount <= 0);
+        return noDrinkPoints || noFoodPoints;
     }
 
     showGameOver() {
