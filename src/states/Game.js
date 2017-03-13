@@ -166,12 +166,17 @@ export default class extends Phaser.State {
     isGameOver() {
         const noDrinkPoints = (this._drinkAmount <= gameConfig.drinkMinimumAmount);
         const noFoodPoints = (this._foodAmount <= gameConfig.foodMinimumAmount);
+
+        // TODO - REMOVE: DEBUG
+        if (this._cursors.up.isDown) {
+            return true;
+        }
+
         return noDrinkPoints || noFoodPoints;
     }
 
     showGameOver() {
-        this.add.sprite((config.gameWidth - 594) / 2, (config.gameHeight - 271) / 2, 'game-over');
-        this.game.paused = true;
+        this.state.start('GameOver');
     }
 
     updateCollectibles() {

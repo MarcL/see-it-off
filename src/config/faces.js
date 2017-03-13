@@ -18,5 +18,4 @@ export default {
     FACE_GOURMAND: 11,
     FACE_GLUTTONOUS: 12,
     FACE_SICK: 13,
-
 };

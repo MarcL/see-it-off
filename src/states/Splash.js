@@ -32,6 +32,7 @@ export default class extends Phaser.State {
             'background-landing': './assets/images/background-landing.png',
             'game-over': './assets/images/gameover.png',
             'background-face': './assets/images/ui/background-face.png',
+            'background-game-over': './assets/images/ui/background-face-game-over.png',
             'score-bar': './assets/images/ui/score-bar.png',
             frame: './assets/images/ui/frame.png',
             'food-bar': './assets/images/ui/food-bar.png',
