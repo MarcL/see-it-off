@@ -86,8 +86,6 @@ export default class extends Phaser.State {
 
         this.setDrinksBar();
         this.setFoodBar();
-
-//        this.createBannerText();
     }
 
     managePause() {
@@ -387,17 +385,6 @@ export default class extends Phaser.State {
 
     onCollectibleOutOfBounds(collectible) {
         collectible.kill();
-    }
-
-    createBannerText() {
-        const bannerText = 'See It Off';
-        const banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText);
-        banner.font = 'eraserregular';
-        banner.padding.set(10, 16);
-        banner.fontSize = 80;
-        banner.fill = '#fff';
-        banner.smoothed = false;
-        banner.anchor.setTo(0.5);
     }
 
     createScoreText(position) {
