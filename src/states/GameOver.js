@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import config from '../config';
-import faces from '../config/faces';
+import {getLastFace} from '../config/faces';
 
 export default class extends Phaser.State {
     create() {
@@ -25,11 +25,10 @@ export default class extends Phaser.State {
         );
         backgroundSprite.anchor.setTo(0.5, 0.5);
 
-        // TODO - Get last face sprite
         const faceSprite = this.add.sprite(faceBg.x + 8, faceBg.y + 40, 'faces');
         faceSprite.scale = {x: 2, y: 2};
         faceSprite.anchor.setTo(0.5, 0.5);
-        faceSprite.frame = faces.FACE_NEUTRAL;
+        faceSprite.frame = getLastFace();
 
         // TODO - Try again button
         this.add.button(

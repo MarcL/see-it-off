@@ -4,7 +4,7 @@ import Collectible from '../sprites/Collectible';
 
 import config from '../config';
 import collectibles from '../config/collectibles';
-import faces from '../config/faces';
+import {constants as faceConstants, setLastFace} from '../config/faces';
 
 const DEBUG_GAME = false;
 
@@ -120,37 +120,37 @@ export default class extends Phaser.State {
     updateFace() {
         const foodDifference = this._foodAmount - this._drinkAmount;
         const drinkDifference = this._drinkAmount - this._foodAmount;
-        let newFace = faces.FACE_NEUTRAL;
+        let newFace = faceConstants.FACE_NEUTRAL;
 
         if (foodDifference > 200) {
-            newFace = faces.FACE_SICK;
+            newFace = faceConstants.FACE_SICK;
         } else if (foodDifference > 100) {
-            newFace = faces.FACE_GLUTTONOUS;
+            newFace = faceConstants.FACE_GLUTTONOUS;
         } else if (foodDifference > 50) {
-            newFace = faces.FACE_GOURMAND;
+            newFace = faceConstants.FACE_GOURMAND;
         }
 
         if (drinkDifference > 200) {
-            newFace = faces.FACE_HAMMERED;
+            newFace = faceConstants.FACE_HAMMERED;
         } else if (drinkDifference > 100) {
-            newFace = faces.FACE_DRUNK;
+            newFace = faceConstants.FACE_DRUNK;
         } else if (drinkDifference > 50) {
-            newFace = faces.FACE_MERRY;
+            newFace = faceConstants.FACE_MERRY;
         }
 
         if ((drinkDifference <= 50) && (foodDifference <= 50)) {
             if (this._score > 200) {
-                newFace = faces.FACE_LAUGHING;
+                newFace = faceConstants.FACE_LAUGHING;
             } else if (this._score > 100) {
-                newFace = faces.FACE_CHEERFUL;
+                newFace = faceConstants.FACE_CHEERFUL;
             } else if (this._score > 50) {
-                newFace = faces.FACE_HAPPY;
+                newFace = faceConstants.FACE_HAPPY;
             } else if (this._score < -200) {
-                newFace = faces.FACE_ANGRY;
+                newFace = faceConstants.FACE_ANGRY;
             } else if (this._score < -100) {
-                newFace = faces.FACE_ANNOYED;
+                newFace = faceConstants.FACE_ANNOYED;
             } else if (this.score < -50) {
-                newFace = faces.FACE_BORED;
+                newFace = faceConstants.FACE_BORED;
             }
         }
 
@@ -160,6 +160,7 @@ export default class extends Phaser.State {
     setFace(faceFrame) {
         if (faceFrame !== this._face.frame) {
             this._face.frame = faceFrame;
+            setLastFace(faceFrame);
         }
     }
 
@@ -287,7 +288,7 @@ export default class extends Phaser.State {
 
         this._face = this.add.sprite(faceBg.x + 4, faceBg.y + 10, 'faces');
         this._face.anchor.setTo(0.5, 0.5);
-        this.setFace(faces.FACE_NEUTRAL);
+        this.setFace(faceConstants.FACE_NEUTRAL);
 
         const scorePos = {
             x: faceBg.x,

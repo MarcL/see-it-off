@@ -1,4 +1,4 @@
-export default {
+const constants = {
     FACE_NEUTRAL: 0,
 
     FACE_HAPPY: 1,
@@ -18,4 +18,18 @@ export default {
     FACE_GOURMAND: 11,
     FACE_GLUTTONOUS: 12,
     FACE_SICK: 13,
+};
+
+let lastFace = constants.FACE_NEUTRAL;
+
+const setLastFace = (faceFrame) => {
+    lastFace = faceFrame;
+};
+
+const getLastFace = () => lastFace;
+
+export {
+    constants,
+    getLastFace,
+    setLastFace
 };
