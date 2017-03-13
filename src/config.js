@@ -10,7 +10,8 @@ export default {
         frame: './assets/images/ui/frame.png',
         'food-bar': './assets/images/ui/food-bar.png',
         'drinks-bar': './assets/images/ui/drinks-bar.png',
-        'black-background': './assets/images/ui/black-background.png'
+        'black-background': './assets/images/ui/black-background.png',
+        spit: './assets/images/player/spit.png'
     },
     rules: {
         drinkDecrementPerTimeUnit: 4,
@@ -25,5 +26,6 @@ export default {
         playerYPosition: 860,
         minimumSpawnTime: 1200,
         maximumSpawnTime: 2500,
-    }
+    },
+    gravity: 400
 };

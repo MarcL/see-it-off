@@ -24,6 +24,7 @@ export default class extends Phaser.State {
         this._pauseMenu = null;
         this._resumeButton = null;
         this._quitButton = null;
+        this._emitter = null;
 
         this._scoreText = null;
         this._foodBar = null;
@@ -41,7 +42,7 @@ export default class extends Phaser.State {
         this.game.time.advancedTiming = true;
         this.physics.startSystem(Phaser.Physics.ARCADE);
 
-        this.physics.arcade.gravity.y = 200;
+        this.physics.arcade.gravity.y = config.gravity;
 
         this.add.sprite(0, 0, 'background-game');
         this.add.button(
@@ -68,6 +69,7 @@ export default class extends Phaser.State {
         this.initialisePlayer();
         this._collectibleGroup = this.add.group();
 
+        this.intialiseParticleEmitter();
         this.initialiseUi();
         this.initialisePauseMenu();
 
@@ -438,6 +440,10 @@ export default class extends Phaser.State {
 
         const points = collectible.collectibleType.points;
 
+        const {x, y} = this._player.position;
+        const mouthYOffset = 175;
+        this.triggerEatParticles(x, y + mouthYOffset);
+
         if (collectible.isFood) {
             this._foodAmount += points;
 
@@ -484,5 +490,18 @@ export default class extends Phaser.State {
 
             this.game.debug.body(this._player);
         }
+    }
+
+    intialiseParticleEmitter() {
+        this._emitter = this.game.add.emitter(0, 0, 100);
+
+        this._emitter.makeParticles('spit');
+    }
+
+    triggerEatParticles(x, y) {
+        this._emitter.x = x;
+        this._emitter.y = y;
+
+        this._emitter.start(true, 1000, null, 5);
     }
 }
