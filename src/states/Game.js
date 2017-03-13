@@ -160,8 +160,8 @@ export default class extends Phaser.State {
     setFace(faceFrame) {
         if (faceFrame !== this._face.frame) {
             this._face.frame = faceFrame;
-            setLastFace(faceFrame);
         }
+        setLastFace(faceFrame);
     }
 
     isGameOver() {
