@@ -6,7 +6,7 @@ import config from '../config';
 import collectibles from '../config/collectibles';
 import faces from '../config/faces';
 
-const DEBUG_GAME = true;
+const DEBUG_GAME = false;
 
 // TODO Move to a file
 const gameConfig = {
