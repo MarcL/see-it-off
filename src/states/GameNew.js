@@ -6,6 +6,8 @@ import config from '../config';
 import collectibles from '../config/collectibles';
 import faces from '../config/faces';
 
+const DEBUG_GAME = false;
+
 // TODO Move to a file
 const gameConfig = {
     drinkDecrementPerTimeUnit: 1,
@@ -42,8 +44,6 @@ export default class extends Phaser.State {
         this._score = 0;
         this._cursors = null;
         this._facing = 'idle';
-        // this._drinkAmountText = null;
-        // this._foodAmountText = null;
         this._foodMaximumTotal = gameConfig.foodMaximumAmount - gameConfig.foodMinimumAmount;
         this._drinkMaximumTotal = gameConfig.drinkMaximumAmount - gameConfig.drinkMinimumAmount;
         this._foodAmount = this._foodMaximumTotal / 2;
@@ -249,6 +249,9 @@ export default class extends Phaser.State {
         this._player.body.allowGravity = false;
         this._player.body.collideWorldBounds = true;
 
+        // Original player spritesheet: 218x218
+        this._player.body.setSize(109, 198, 54, 0);
+
         this._player.anchor.setTo(0.5, 0);
     }
 
@@ -286,9 +289,6 @@ export default class extends Phaser.State {
         this._drinksBar.scale.x = 1;
         this._drinksBar.anchor.setTo(0, 0.5);
 
-        // this._foodAmountText = this.add.text(config.gameWidth * 0.18, config.gameHeight * 0.825, '0', this._fontStyle);
-        // this._drinkAmountText = this.add.text(config.gameWidth * 0.18, config.gameHeight * 0.92, '0', this._fontStyle);
-
         this.setDrinksBar();
         this.setFoodBar();
     }
@@ -320,12 +320,10 @@ export default class extends Phaser.State {
     }
 
     setDrinksBar() {
-        // this._drinkAmountText.setText(`Drink: ${this._drinkAmount}`);
         this._drinksBar.scale.x = (this._drinkAmount / this._drinkMaximumTotal);
     }
 
     setFoodBar() {
-        // this._foodAmountText.setText(`Food: ${this._foodAmount}`);
         this._foodBar.scale.x = (this._foodAmount / this._foodMaximumTotal);
     }
 
@@ -411,6 +409,14 @@ export default class extends Phaser.State {
     }
 
     render() {
-        this.game.debug.text(this.game.time.fps, 2, 14, '#fff');
+        if (DEBUG_GAME) {
+            this.game.debug.text(this.game.time.fps, 2, 14, '#fff');
+
+            this._collectibleGroup.forEach((collectible) => {
+                this.game.debug.body(collectible);
+            });
+
+            this.game.debug.body(this._player);
+        }
     }
 }

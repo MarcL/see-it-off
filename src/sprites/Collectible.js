@@ -17,6 +17,9 @@ export default class extends Phaser.Sprite {
         this.rotateSpeed = (Math.random() * 4) - 2;
         this.collectibleType = collectibleType;
         this.isFood = isFood;
+
+        // Original spritesheet size: 396x396
+        this.body.setSize(198, 198, 99, 99);
     }
 
     update() {
