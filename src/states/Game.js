@@ -7,22 +7,7 @@ import collectibles from '../config/collectibles';
 import {constants as faceConstants, setLastFace} from '../config/faces';
 
 const DEBUG_GAME = false;
-
-// TODO Move to a file
-const gameConfig = {
-    drinkDecrementPerTimeUnit: 4,
-    drinkDecrementTimeMilliSeconds: 1000,
-    drinkMinimumAmount: -250,
-    drinkMaximumAmount: 250,
-    foodDecrementPerMove: 2,
-    foodMinimumAmount: -250,
-    foodMaximumAmount: 250,
-    playerInitialMoveSpeed: 500,
-    playerMaxDragMultiplier: 0.4,
-    playerYPosition: 860,
-    minimumSpawnTime: 1200,
-    maximumSpawnTime: 2500,
-};
+const gameConfig = config.rules;
 
 const randomIntegerBetween = (min, max) => Math.floor((Math.random() * (max - min)) + min);
 const calculateScale = (amount, maximum, total) => (amount + maximum) / total;
@@ -116,7 +101,6 @@ export default class extends Phaser.State {
         }
     }
 
-    // TODO - needs working out properly once rules are clear
     updateFace() {
         const foodDifference = this._foodAmount - this._drinkAmount;
         const drinkDifference = this._drinkAmount - this._foodAmount;
@@ -396,9 +380,6 @@ export default class extends Phaser.State {
         collectible.kill();
 
         const points = collectible.collectibleType.points;
-        // this._score += points;
-
-        // this._scoreText.setText(this._score);
 
         if (collectible.isFood) {
             this._foodAmount += points;
