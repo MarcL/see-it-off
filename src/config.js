@@ -14,11 +14,11 @@ export default {
         spit: './assets/images/player/spit.png'
     },
     rules: {
-        drinkDecrementPerTimeUnit: 4,
-        drinkDecrementTimeMilliSeconds: 1000,
+        drinkDecrementPerTimeUnit: 2,
+        drinkDecrementTimeMilliSeconds: 500,
         drinkMinimumAmount: -250,
         drinkMaximumAmount: 250,
-        foodDecrementPerMove: 2,
+        foodDecrementPerMove: 4,
         foodMinimumAmount: -250,
         foodMaximumAmount: 250,
         playerInitialMoveSpeed: 500,
