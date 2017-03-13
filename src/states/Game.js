@@ -420,11 +420,13 @@ export default class extends Phaser.State {
     }
 
     createScoreText(position) {
-        this._scoreText = this.add.text(position.x, position.y, '0', this._fontStyle);
-        this._scoreText.font = 'dinregular';
-        this._scoreText.fontSize = 40;
-        this._scoreText.fill = '#111';
-        this._scoreText.smoothed = false;
+        const fontStyle = {
+            font: '40px dinregular',
+            fill: '#111',
+            align: 'center'
+        };
+
+        this._scoreText = this.add.text(position.x, position.y, '0', fontStyle);
         this._scoreText.anchor.setTo(0.5);
     }
 
