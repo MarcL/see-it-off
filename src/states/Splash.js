@@ -22,6 +22,7 @@ export default class extends Phaser.State {
         this.load.spritesheet('try-again-button', './assets/images/ui/try-again-button.png', 628, 234);
         this.load.spritesheet('resume-button', './assets/images/ui/resume-button.png', 628, 233);
         this.load.spritesheet('quit-button', './assets/images/ui/quit-button.png', 447, 136);
+        this.load.spritesheet('close-button', './assets/images/ui/close-button.png', 148, 135);
     }
 
     create() {

@@ -55,4 +55,8 @@ export default class extends Phaser.State {
     startGame() {
         this.state.start('Game');
     }
+
+    showRules() {
+        this.state.start('Rules');
+    }
 }

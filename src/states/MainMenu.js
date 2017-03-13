@@ -36,6 +36,6 @@ export default class extends Phaser.State {
     }
 
     showRules() {
-        // TODO
+        this.state.start('Rules');
     }
 }
