@@ -20,15 +20,15 @@ export default class extends Phaser.State {
         );
 
         // TODO - Add in if have time
-        // this.add.button(
-        //     config.gameWidth * 0.29,
-        //     config.gameHeight * 0.55,
-        //     'rules-button',
-        //     this.showRules,
-        //     this,
-        //     0,
-        //     1
-        // );
+        this.add.button(
+            config.gameWidth * 0.29,
+            config.gameHeight * 0.52,
+            'rules-button',
+            this.showRules,
+            this,
+            1,
+            0
+        );
     }
 
     startGame() {

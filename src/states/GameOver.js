@@ -30,12 +30,22 @@ export default class extends Phaser.State {
         faceSprite.anchor.setTo(0.5, 0.5);
         faceSprite.frame = getLastFace();
 
-        // TODO - Try again button
         this.add.button(
             config.gameWidth * 0.2,
             config.gameHeight * 0.6,
-            'play-button',
+            'try-again-button',
             this.startGame,
+            this,
+            1,
+            0
+        );
+
+        // TODO - Add in if have time
+        this.add.button(
+            config.gameWidth * 0.29,
+            config.gameHeight * 0.85,
+            'rules-button',
+            this.showRules,
             this,
             1,
             0
