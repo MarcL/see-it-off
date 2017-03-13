@@ -414,7 +414,6 @@ export default class extends Phaser.State {
         const dropPos = randomIntegerBetween(config.gameWidth * 0.05, config.gameWidth * 0.95);
         const dropOffset = 0;
 
-        // Choose collectible type
         const foodOrDrink = randomIntegerBetween(0, 100);
         const isFood = (foodOrDrink >= 50);
         const collectibleTypeList = isFood ? collectibles.food : collectibles.drinks;
