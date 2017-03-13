@@ -17,7 +17,7 @@ const gameConfig = {
     foodDecrementPerMove: 2,
     foodMinimumAmount: -250,
     foodMaximumAmount: 250,
-    playerInitialMoveSpeed: 400,
+    playerInitialMoveSpeed: 500,
     playerMaxDragMultiplier: 0.4,
     playerYPosition: 860,
     minimumSpawnTime: 1800,
