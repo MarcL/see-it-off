@@ -4,7 +4,7 @@ import Phaser from 'phaser';
 
 import BootState from './states/Boot';
 import SplashState from './states/Splash';
-import GameState from './states/GameNew';
+import GameState from './states/Game';
 import MainMenuState from './states/MainMenu';
 
 import config from './config';
