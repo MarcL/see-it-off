@@ -78,9 +78,8 @@ export default class extends Phaser.State {
         this._spawnTimer = 0;
         this._drinkTimer = 0;
 
-        this._collectibleGroup = this.add.group();
-
         this.initialisePlayer();
+        this._collectibleGroup = this.add.group();
 
         this.initialiseUi();
 
@@ -249,7 +248,7 @@ export default class extends Phaser.State {
         this._player.body.collideWorldBounds = true;
 
         // Original player spritesheet: 436x436
-        this._player.body.setSize(218, 436, 109, 0);
+        this._player.body.setSize(218, 200, 109, 118);
 
         this._player.anchor.setTo(0.5, 0);
     }
