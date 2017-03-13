@@ -19,7 +19,7 @@ const gameConfig = {
     foodMaximumAmount: 250,
     playerInitialMoveSpeed: 400,
     playerMaxDragMultiplier: 0.4,
-    playerYPosition: 960,
+    playerYPosition: 860,
     minimumSpawnTime: 1800,
     maximumSpawnTime: 3300,
 };
@@ -239,7 +239,7 @@ export default class extends Phaser.State {
 
     initialisePlayer() {
         this._player = this.add.sprite(config.gameWidth * 0.5, gameConfig.playerYPosition, 'player');
-        this._player.scale = {x: 1.5, y: 1.5};
+        this._player.scale = {x: 1, y: 1};
         this._player.animations.add('idle', [0, 1, 2, 3], 10, true);
         this._player.animations.add('move-left', [4, 5, 6, 7], 10, true);
         this._player.animations.add('move-right', [8, 9, 10, 11], 10, true);
