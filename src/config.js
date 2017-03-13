@@ -4,7 +4,6 @@ export default {
     images: {
         'background-game': './assets/images/background-game.png',
         'background-landing': './assets/images/background-landing.png',
-        'game-over': './assets/images/gameover.png',
         'background-face': './assets/images/ui/background-face.png',
         'background-game-over': './assets/images/ui/background-face-game-over.png',
         'score-bar': './assets/images/ui/score-bar.png',
