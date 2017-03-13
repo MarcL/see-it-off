@@ -24,9 +24,8 @@ const gameConfig = {
     maximumSpawnTime: 2500,
 };
 
-function randomIntegerBetween(min, max) {
-    return Math.floor((Math.random() * (max - min)) + min);
-}
+const randomIntegerBetween = (min, max) => Math.floor((Math.random() * (max - min)) + min);
+const calculateScale = (amount, maximum, total) => (amount + maximum) / total;
 
 export default class extends Phaser.State {
     init() {
@@ -342,13 +341,19 @@ export default class extends Phaser.State {
     }
 
     setDrinksBar() {
-        this._drinksBar.scale.x =
-            (this._drinkAmount + gameConfig.drinkMaximumAmount) / this._drinkMaximumTotal;
+        this._drinksBar.scale.x = calculateScale(
+            this._drinkAmount,
+            gameConfig.drinkMaximumAmount,
+            this._drinkMaximumTotal
+        );
     }
 
     setFoodBar() {
-        this._foodBar.scale.x =
-            (this._foodAmount + gameConfig.foodMaximumAmount) / this._foodMaximumTotal;
+        this._foodBar.scale.x = calculateScale(
+            this._foodAmount,
+            gameConfig.foodMaximumAmount,
+            this._foodMaximumTotal
+        );
     }
 
     spawnCollectible() {
