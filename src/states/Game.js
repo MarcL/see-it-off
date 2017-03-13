@@ -20,8 +20,8 @@ const gameConfig = {
     playerInitialMoveSpeed: 500,
     playerMaxDragMultiplier: 0.4,
     playerYPosition: 860,
-    minimumSpawnTime: 1800,
-    maximumSpawnTime: 3300,
+    minimumSpawnTime: 1200,
+    maximumSpawnTime: 2500,
 };
 
 function randomIntegerBetween(min, max) {
@@ -136,6 +136,18 @@ export default class extends Phaser.State {
             newFace = faces.FACE_DRUNK;
         } else if (drinkDifference > 50) {
             newFace = faces.FACE_MERRY;
+        }
+
+        if ((drinkDifference <= 50) && (foodDifference <= 50)) {
+            if (this._score > 200) {
+                newFace = faces.FACE_LAUGHING;
+            } else if (this._score > 100) {
+                newFace = faces.FACE_CHEERFUL;
+            } else if (this._score > 50) {
+                newFace = faces.FACE_HAPPY;
+            }
+
+            // TODO negative score faces
         }
 
         this.setFace(newFace);
