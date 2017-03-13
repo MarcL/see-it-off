@@ -6,7 +6,7 @@ import config from '../config';
 import collectibles from '../config/collectibles';
 import faces from '../config/faces';
 
-const DEBUG_GAME = false;
+const DEBUG_GAME = true;
 
 // TODO Move to a file
 const gameConfig = {
@@ -250,8 +250,8 @@ export default class extends Phaser.State {
         this._player.body.allowGravity = false;
         this._player.body.collideWorldBounds = true;
 
-        // Original player spritesheet: 218x218
-        this._player.body.setSize(109, 198, 54, 0);
+        // Original player spritesheet: 436x436
+        this._player.body.setSize(218, 436, 109, 0);
 
         this._player.anchor.setTo(0.5, 0);
     }

@@ -18,8 +18,8 @@ export default class extends Phaser.Sprite {
         this.collectibleType = collectibleType;
         this.isFood = isFood;
 
-        // Original spritesheet size: 396x396
-        this.body.setSize(198, 198, 99, 99);
+        // Original spritesheet size: 140x400
+        this.body.setSize(140, 200, 0, 100);
     }
 
     update() {
