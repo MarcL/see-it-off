@@ -10,7 +10,7 @@ const DEBUG_GAME = false;
 
 // TODO Move to a file
 const gameConfig = {
-    drinkDecrementPerTimeUnit: 1,
+    drinkDecrementPerTimeUnit: 4,
     drinkDecrementTimeMilliSeconds: 1000,
     drinkMinimumAmount: -250,
     drinkMaximumAmount: 250,
@@ -46,8 +46,8 @@ export default class extends Phaser.State {
         this._facing = 'idle';
         this._foodMaximumTotal = gameConfig.foodMaximumAmount - gameConfig.foodMinimumAmount;
         this._drinkMaximumTotal = gameConfig.drinkMaximumAmount - gameConfig.drinkMinimumAmount;
-        this._foodAmount = this._foodMaximumTotal / 2;
-        this._drinkAmount = this._drinkMaximumTotal / 2;
+        this._foodAmount = 0;
+        this._drinkAmount = 0;
     }
 
     create() {
@@ -85,6 +85,7 @@ export default class extends Phaser.State {
 
         this.setDrinksBar();
         this.setFoodBar();
+        this.setTotalScore();
     }
 
     managePause() {
@@ -145,9 +146,13 @@ export default class extends Phaser.State {
                 newFace = faces.FACE_CHEERFUL;
             } else if (this._score > 50) {
                 newFace = faces.FACE_HAPPY;
+            } else if (this._score < -200) {
+                newFace = faces.FACE_ANGRY;
+            } else if (this._score < -100) {
+                newFace = faces.FACE_ANNOYED;
+            } else if (this.score < -50) {
+                newFace = faces.FACE_BORED;
             }
-
-            // TODO negative score faces
         }
 
         this.setFace(newFace);
@@ -160,8 +165,8 @@ export default class extends Phaser.State {
     }
 
     isGameOver() {
-        const noDrinkPoints = (this._drinkAmount <= 0);
-        const noFoodPoints = (this._foodAmount <= 0);
+        const noDrinkPoints = (this._drinkAmount <= gameConfig.drinkMinimumAmount);
+        const noFoodPoints = (this._foodAmount <= gameConfig.foodMinimumAmount);
         return noDrinkPoints || noFoodPoints;
     }
 
@@ -313,28 +318,37 @@ export default class extends Phaser.State {
             this._drinkTimer = 0;
 
             this._drinkAmount -= gameConfig.drinkDecrementPerTimeUnit;
-            if (this._drinkAmount < 0) {
-                this._drinkAmount = 0;
+            if (this._drinkAmount < gameConfig.drinkMinimumAmount) {
+                this._drinkAmount = gameConfig.drinkMinimumAmount;
             }
 
             this.setDrinksBar();
+            this.setTotalScore();
         }
     }
 
     updateFoodAmount() {
         this._foodAmount -= gameConfig.foodDecrementPerMove;
-        if (this._foodAmount < 0) {
-            this._foodAmount = 0;
+        if (this._foodAmount < gameConfig.foodMinimumAmount) {
+            this._foodAmount = gameConfig.foodMinimumAmount;
         }
         this.setFoodBar();
+        this.setTotalScore();
+    }
+
+    setTotalScore() {
+        this._score = this._foodAmount + this._drinkAmount;
+        this._scoreText.setText(this._score);
     }
 
     setDrinksBar() {
-        this._drinksBar.scale.x = (this._drinkAmount / this._drinkMaximumTotal);
+        this._drinksBar.scale.x =
+            (this._drinkAmount + gameConfig.drinkMaximumAmount) / this._drinkMaximumTotal;
     }
 
     setFoodBar() {
-        this._foodBar.scale.x = (this._foodAmount / this._foodMaximumTotal);
+        this._foodBar.scale.x =
+            (this._foodAmount + gameConfig.foodMaximumAmount) / this._foodMaximumTotal;
     }
 
     spawnCollectible() {
@@ -351,7 +365,7 @@ export default class extends Phaser.State {
         const isFood = (foodOrDrink >= 50);
         const collectibleTypeList = isFood ? collectibles.food : collectibles.drinks;
 
-        const randomTypeIndex = randomIntegerBetween(0, collectibleTypeList.length - 1);
+        const randomTypeIndex = randomIntegerBetween(0, collectibleTypeList.length);
         const collectibleType = collectibleTypeList[randomTypeIndex];
 
         const collectible = new Collectible({
@@ -371,9 +385,9 @@ export default class extends Phaser.State {
         collectible.kill();
 
         const points = collectible.collectibleType.points;
-        this._score += points;
+        // this._score += points;
 
-        this._scoreText.setText(this._score);
+        // this._scoreText.setText(this._score);
 
         if (collectible.isFood) {
             this._foodAmount += points;
@@ -383,6 +397,7 @@ export default class extends Phaser.State {
             }
 
             this.setFoodBar();
+            this.setTotalScore();
         } else {
             this._drinkAmount += points;
 
@@ -391,6 +406,7 @@ export default class extends Phaser.State {
             }
 
             this.setDrinksBar();
+            this.setTotalScore();
         }
     }
 
