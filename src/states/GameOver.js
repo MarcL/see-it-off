@@ -33,7 +33,7 @@ export default class extends Phaser.State {
 
         const lastTimeText = this.add.text(
             config.gameWidth * 0.5,
-            config.gameHeight * 0.575,
+            config.gameHeight * 0.58,
             this.game._lastTime,
             fontStyle
         );
