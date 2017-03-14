@@ -161,7 +161,7 @@ export default class extends Phaser.State {
     createPage2() {
         const page = this.add.group();
         const leftColumnX = config.gameWidth * 0.1;
-        const rightColumnX = config.gameWidth * 0.45;
+        const rightColumnX = config.gameWidth * 0.49;
 
         page.add(this.createTitleText('Did you believe it was easy to keep a Robinson Happy?'));
         page.add(this.createText(leftColumnX, config.gameHeight * 0.3, 'If Tom drinks more than he eats, controlling him becomes harder as he gets drunk.', 'left', config.gameWidth * 0.5));
