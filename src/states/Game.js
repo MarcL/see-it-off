@@ -45,8 +45,8 @@ export default class extends Phaser.State {
         this._facing = 'idle';
         this._foodMaximumTotal = gameConfig.foodMaximumAmount - gameConfig.foodMinimumAmount;
         this._drinkMaximumTotal = gameConfig.drinkMaximumAmount - gameConfig.drinkMinimumAmount;
-        this._foodAmount = 250;
-        this._drinkAmount = 250;
+        this._foodAmount = 0;
+        this._drinkAmount = 0;
         this._foodSound = null;
         this._drinkSound = null;
     }
@@ -364,7 +364,6 @@ export default class extends Phaser.State {
         foodBarBackground.anchor.setTo(0, 0.5);
         this._foodBar = this.add.sprite(foodBarPos.x + 161, foodBarPos.y - 5, 'bars', 1);
         this._foodBar.anchor.setTo(0, 0.5);
-        this._foodBar.scale.x = 1;
         this._originalBarWidth = this._foodBar.getBounds().width;
 
         const drinksBarPos = {x: config.gameWidth * 0.025, y: config.gameHeight * 0.94};
@@ -372,7 +371,6 @@ export default class extends Phaser.State {
         drinksBarBackground.anchor.setTo(0, 0.5);
         this._drinksBar = this.add.sprite(drinksBarPos.x + 154, drinksBarPos.y - 6, 'bars', 1);
         this._drinksBar.anchor.setTo(0, 0.5);
-        this._drinksBar.scale.x = 1;
 
         this.setDrinksBar();
         this.setFoodBar();
