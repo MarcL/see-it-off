@@ -365,6 +365,7 @@ export default class extends Phaser.State {
         this._foodBar = this.add.sprite(foodBarPos.x + 161, foodBarPos.y - 5, 'bars', 1);
         this._foodBar.anchor.setTo(0, 0.5);
         this._foodBar.scale.x = 1;
+        this._originalBarWidth = this._foodBar.getBounds().width;
 
         const drinksBarPos = {x: config.gameWidth * 0.025, y: config.gameHeight * 0.94};
         const drinksBarBackground = this.add.sprite(drinksBarPos.x, drinksBarPos.y, 'drinks-bar');
@@ -411,22 +412,32 @@ export default class extends Phaser.State {
     }
 
     setDrinksBar() {
-        this._drinksBar.scale.x = calculateScale(
+        const newScale = calculateScale(
             this._drinkAmount,
             gameConfig.drinkMaximumAmount,
             this._drinkMaximumTotal
         );
+        this.scaleBarSprite(this._drinksBar, newScale);
         this._drinksBar.frame = getBarFrameNumber(this._drinkAmount);
     }
 
     setFoodBar() {
-        this._foodBar.scale.x = calculateScale(
+        const newScale = calculateScale(
             this._foodAmount,
             gameConfig.foodMaximumAmount,
             this._foodMaximumTotal
         );
+        this.scaleBarSprite(this._foodBar, newScale);
+
         this._foodBar.frame = getBarFrameNumber(this._foodAmount);
     }
+
+    scaleBarSprite(barSprite, newScale) {
+        const newBounds = new Phaser.Rectangle(0, 0, this._originalBarWidth * newScale, 100);
+        barSprite.crop(newBounds);
+        barSprite.updateCrop();
+    }
+
 
     spawnCollectible() {
         this._nextSpawnTime = randomIntegerBetween(
