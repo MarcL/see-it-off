@@ -26,6 +26,7 @@ export default class extends Phaser.State {
         this._quitButton = null;
         this._emitter = null;
         this._music = null;
+        this._pauseButton = null;
 
         this._scoreText = null;
         this._foodBar = null;
@@ -48,7 +49,7 @@ export default class extends Phaser.State {
         this.physics.arcade.gravity.y = config.gravity;
 
         this.add.sprite(0, 0, 'background-game');
-        this.add.button(
+        this._pauseButton = this.add.button(
             config.gameWidth * 0.86,
             config.gameHeight * 0.03,
             'pause-button',
@@ -130,7 +131,7 @@ export default class extends Phaser.State {
         this.game.paused = true;
         this._pauseMenu.visible = true;
 
-        // Phaser stops everything on game.paused so buttons don't function
+        // Phaser stops updateding all subsystems on game.paused so buttons don't function
         // as expected, hence this hack to check bounds. Short on time! :)
         this.input.onDown.add(() => {
             if (this.game.paused) {
