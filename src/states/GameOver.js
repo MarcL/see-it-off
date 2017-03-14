@@ -12,12 +12,12 @@ export default class extends Phaser.State {
             align: 'center'
         };
 
-        const gameOverText = this.add.text(config.gameWidth * 0.5, config.gameHeight * 0.15, 'GAME OVER', fontStyle);
+        const gameOverText = this.add.text(config.gameWidth * 0.5, config.gameHeight * 0.1, 'GAME OVER', fontStyle);
         gameOverText.anchor.setTo(0.5);
 
         const faceBg = {
             x: config.gameWidth * 0.5,
-            y: config.gameHeight * 0.4
+            y: config.gameHeight * 0.35
         };
         const backgroundSprite = this.add.sprite(
             faceBg.x,
@@ -31,9 +31,17 @@ export default class extends Phaser.State {
         faceSprite.anchor.setTo(0.5, 0.5);
         faceSprite.frame = getLastFace();
 
+        const lastTimeText = this.add.text(
+            config.gameWidth * 0.5,
+            config.gameHeight * 0.575,
+            this.game._lastTime,
+            fontStyle
+        );
+        lastTimeText.anchor.setTo(0.5);
+
         this.add.button(
             config.gameWidth * 0.2,
-            config.gameHeight * 0.6,
+            config.gameHeight * 0.65,
             'uno-mas-button',
             this.startGame,
             this,

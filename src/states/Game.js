@@ -21,6 +21,19 @@ const getBarFrameNumber = (amount) => {
     return 1;
 };
 
+const prependZero = (time) => {
+    return (time < 10) ? `0${time}` : time;
+}
+
+const formatTimeString = (milliseconds) => {
+    const seconds = parseInt((milliseconds / 1000) % 60, 10);
+    const minutes = parseInt((milliseconds / (1000 * 60)) % 60, 10);
+    const secondsText = prependZero(seconds);
+    const minutesText = prependZero(minutes);
+
+    return `${minutesText}:${secondsText}`;
+};
+
 export default class extends Phaser.State {
     init() {
         this._player = null;
@@ -36,8 +49,9 @@ export default class extends Phaser.State {
         this._emitter = null;
         this._music = null;
         this._pauseButton = null;
+        this._timer = 0;
 
-        this._scoreText = null;
+        this._timerText = null;
         this._foodBar = null;
         this._drinksBar = null;
         this._score = 0;
@@ -164,6 +178,7 @@ export default class extends Phaser.State {
 
     update() {
         this._spawnTimer += this.time.elapsed;
+        this._timer += this.time.elapsed;
 
         this.updatePlayer();
         this.updateCollectibles();
@@ -237,6 +252,7 @@ export default class extends Phaser.State {
 
     showGameOver() {
         this.stopMusic();
+        this.game._lastTime = formatTimeString(this._timer);
         this.state.start('GameOver');
     }
 
@@ -357,7 +373,7 @@ export default class extends Phaser.State {
         const scoreBar = this.add.sprite(scorePos.x, scorePos.y, 'score-bar');
         scoreBar.anchor.setTo(0.5, 0.5);
 
-        this.createScoreText(scorePos);
+        this.createTimerText(scorePos);
 
         const foodBarPos = {x: config.gameWidth * 0.02, y: config.gameHeight * 0.84};
         const foodBarBackground = this.add.sprite(foodBarPos.x, foodBarPos.y, 'food-bar');
@@ -406,7 +422,7 @@ export default class extends Phaser.State {
 
     setTotalScore() {
         this._score = this._foodAmount + this._drinkAmount;
-        this._scoreText.setText(this._score);
+        this._timerText.setText(formatTimeString(this._timer));
     }
 
     setDrinksBar() {
@@ -501,15 +517,15 @@ export default class extends Phaser.State {
         collectible.kill();
     }
 
-    createScoreText(position) {
+    createTimerText(position) {
         const fontStyle = {
             font: '40px dinregular',
             fill: '#111',
             align: 'center'
         };
 
-        this._scoreText = this.add.text(position.x, position.y, '0', fontStyle);
-        this._scoreText.anchor.setTo(0.5);
+        this._timerText = this.add.text(position.x, position.y + 2, '0', fontStyle);
+        this._timerText.anchor.setTo(0.5, 0.5);
     }
 
     render() {
