@@ -11,7 +11,10 @@ export default {
         'food-bar': './assets/images/ui/food-bar.png',
         'drinks-bar': './assets/images/ui/drinks-bar.png',
         'black-background': './assets/images/ui/black-background.png',
-        spit: './assets/images/player/spit.png'
+        spit: './assets/images/player/spit.png',
+        'rules-bar-drinks': './assets/images/ui/rules-bar-drinks.png',
+        'rules-bar-food': './assets/images/ui/rules-bar-food.png',
+        'controls-screenshot': './assets/images/ui/controls-screenshot.png'
     },
     rules: {
         drinkDecrementPerTimeUnit: 2,

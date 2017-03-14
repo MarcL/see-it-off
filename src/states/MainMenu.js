@@ -19,7 +19,6 @@ export default class extends Phaser.State {
             0
         );
 
-        // TODO - Add in if have time
         this.add.button(
             config.gameWidth * 0.29,
             config.gameHeight * 0.52,
