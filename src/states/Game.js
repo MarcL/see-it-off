@@ -11,6 +11,15 @@ const gameConfig = config.rules;
 
 const randomIntegerBetween = (min, max) => Math.floor((Math.random() * (max - min)) + min);
 const calculateScale = (amount, maximum, total) => (amount + maximum) / total;
+const getBarFrameNumber = (amount) => {
+    if (amount > 50) {
+        return 0;
+    } else if (amount < 0) {
+        return 2;
+    }
+
+    return 1;
+};
 
 export default class extends Phaser.State {
     init() {
@@ -36,8 +45,8 @@ export default class extends Phaser.State {
         this._facing = 'idle';
         this._foodMaximumTotal = gameConfig.foodMaximumAmount - gameConfig.foodMinimumAmount;
         this._drinkMaximumTotal = gameConfig.drinkMaximumAmount - gameConfig.drinkMinimumAmount;
-        this._foodAmount = 0;
-        this._drinkAmount = 0;
+        this._foodAmount = 250;
+        this._drinkAmount = 250;
         this._foodSound = null;
         this._drinkSound = null;
     }
@@ -350,15 +359,19 @@ export default class extends Phaser.State {
 
         this.createScoreText(scorePos);
 
-        this.add.sprite(config.gameWidth * 0.02, config.gameHeight * 0.82, 'food-bar');
-        this._foodBar = this.add.sprite(config.gameWidth * 0.18, config.gameHeight * 0.845, 'bars', 0);
-        this._foodBar.scale.x = 1;
+        const foodBarPos = {x: config.gameWidth * 0.02, y: config.gameHeight * 0.84};
+        const foodBarBackground = this.add.sprite(foodBarPos.x, foodBarPos.y, 'food-bar');
+        foodBarBackground.anchor.setTo(0, 0.5);
+        this._foodBar = this.add.sprite(foodBarPos.x + 161, foodBarPos.y - 5, 'bars', 1);
         this._foodBar.anchor.setTo(0, 0.5);
+        this._foodBar.scale.x = 1;
 
-        this.add.sprite(config.gameWidth * 0.03, config.gameHeight * 0.9, 'drinks-bar');
-        this._drinksBar = this.add.sprite(config.gameWidth * 0.18, config.gameHeight * 0.935, 'bars', 2);
-        this._drinksBar.scale.x = 1;
+        const drinksBarPos = {x: config.gameWidth * 0.025, y: config.gameHeight * 0.94};
+        const drinksBarBackground = this.add.sprite(drinksBarPos.x, drinksBarPos.y, 'drinks-bar');
+        drinksBarBackground.anchor.setTo(0, 0.5);
+        this._drinksBar = this.add.sprite(drinksBarPos.x + 154, drinksBarPos.y - 6, 'bars', 1);
         this._drinksBar.anchor.setTo(0, 0.5);
+        this._drinksBar.scale.x = 1;
 
         this.setDrinksBar();
         this.setFoodBar();
@@ -403,6 +416,7 @@ export default class extends Phaser.State {
             gameConfig.drinkMaximumAmount,
             this._drinkMaximumTotal
         );
+        this._drinksBar.frame = getBarFrameNumber(this._drinkAmount);
     }
 
     setFoodBar() {
@@ -411,6 +425,7 @@ export default class extends Phaser.State {
             gameConfig.foodMaximumAmount,
             this._foodMaximumTotal
         );
+        this._foodBar.frame = getBarFrameNumber(this._foodAmount);
     }
 
     spawnCollectible() {

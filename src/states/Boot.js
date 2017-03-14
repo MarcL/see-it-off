@@ -24,7 +24,7 @@ export default class extends Phaser.State {
             active: this.fontsLoaded,
         });
 
-        this.load.spritesheet('bars', './assets/images/ui/bars2.png', 500, 66);
+        this.load.spritesheet('bars', './assets/images/ui/bars.png', 540, 66);
     }
 
     render() {
