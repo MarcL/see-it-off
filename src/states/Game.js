@@ -369,7 +369,7 @@ export default class extends Phaser.State {
         const drinksBarPos = {x: config.gameWidth * 0.025, y: config.gameHeight * 0.94};
         const drinksBarBackground = this.add.sprite(drinksBarPos.x, drinksBarPos.y, 'drinks-bar');
         drinksBarBackground.anchor.setTo(0, 0.5);
-        this._drinksBar = this.add.sprite(drinksBarPos.x + 154, drinksBarPos.y - 6, 'bars', 1);
+        this._drinksBar = this.add.sprite(drinksBarPos.x + 152, drinksBarPos.y - 7, 'bars', 1);
         this._drinksBar.anchor.setTo(0, 0.5);
 
         this.setDrinksBar();
