@@ -25,6 +25,7 @@ export default class extends Phaser.State {
         this._resumeButton = null;
         this._quitButton = null;
         this._emitter = null;
+        this._music = null;
 
         this._scoreText = null;
         this._foodBar = null;
@@ -36,6 +37,8 @@ export default class extends Phaser.State {
         this._drinkMaximumTotal = gameConfig.drinkMaximumAmount - gameConfig.drinkMinimumAmount;
         this._foodAmount = 0;
         this._drinkAmount = 0;
+        this._foodSound = null;
+        this._drinkSound = null;
     }
 
     create() {
@@ -69,13 +72,15 @@ export default class extends Phaser.State {
         this.initialisePlayer();
         this._collectibleGroup = this.add.group();
 
-        this.intialiseParticleEmitter();
+        this.initialiseParticleEmitter();
         this.initialiseUi();
         this.initialisePauseMenu();
 
         this.setDrinksBar();
         this.setFoodBar();
         this.setTotalScore();
+
+        this.initialiseSound();
     }
 
     initialisePauseMenu() {
@@ -140,6 +145,7 @@ export default class extends Phaser.State {
                     this._pauseMenu.visible = false;
                     this.game.paused = false;
 
+                    this.stopMusic();
                     this.state.start('MainMenu');
                 }
             }
@@ -220,6 +226,7 @@ export default class extends Phaser.State {
     }
 
     showGameOver() {
+        this.stopMusic();
         this.state.start('GameOver');
     }
 
@@ -451,6 +458,7 @@ export default class extends Phaser.State {
 
             this.setFoodBar();
             this.setTotalScore();
+            this._foodSound.play();
         } else {
             this._drinkAmount += points;
 
@@ -460,6 +468,7 @@ export default class extends Phaser.State {
 
             this.setDrinksBar();
             this.setTotalScore();
+            this._drinkSound.play();
         }
     }
 
@@ -490,7 +499,7 @@ export default class extends Phaser.State {
         }
     }
 
-    intialiseParticleEmitter() {
+    initialiseParticleEmitter() {
         this._emitter = this.game.add.emitter(0, 0, 100);
 
         this._emitter.makeParticles('spit');
@@ -501,5 +510,23 @@ export default class extends Phaser.State {
         this._emitter.y = y;
 
         this._emitter.start(true, 1000, null, 5);
+    }
+
+    initialiseSound() {
+        this._music = this.game.add.audio('main-music');
+        this._music.loop = true;
+        this._foodSound = this.game.add.audio('food');
+        this._drinkSound = this.game.add.audio('drink');
+
+        const sounds = [this._music, this._foodSound, this._drinkSound];
+        this.game.sound.setDecodedCallback(sounds, this.soundLoaded, this);
+    }
+
+    soundLoaded() {
+        this._music.play();
+    }
+
+    stopMusic() {
+        this._music.stop();
     }
 }

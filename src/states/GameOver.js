@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import config from '../config';
 import {getLastFace} from '../config/faces';
+import * as music from './gameMusic';
 
 export default class extends Phaser.State {
     create() {
@@ -33,7 +34,7 @@ export default class extends Phaser.State {
         this.add.button(
             config.gameWidth * 0.2,
             config.gameHeight * 0.6,
-            'try-again-button',
+            'uno-mas-button',
             this.startGame,
             this,
             1,
@@ -50,9 +51,22 @@ export default class extends Phaser.State {
             1,
             0
         );
+
+        this.initialiseSound();
+    }
+
+    initialiseSound() {
+        if (!this.game._music) {
+            this.game._music = music.initialise(this.game);
+        }
+        music.start(this.game, this.game._music);
+
+        this._gameOverSound = this.game.add.audio('game-over');
+        this._gameOverSound.play();
     }
 
     startGame() {
+        music.stop(this.game._music);
         this.state.start('Game');
     }
 

@@ -72,7 +72,6 @@ export default class extends Phaser.State {
             content,
             fontStyle
         );
-        // text.anchor.setTo(0.5);
 
         return text;
     }

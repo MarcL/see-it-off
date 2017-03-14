@@ -20,11 +20,18 @@ export default class extends Phaser.State {
         this.load.spritesheet('pause-button', './assets/images/ui/pause-button.png', 87, 76);
         this.load.spritesheet('rules-button', './assets/images/ui/rules-button.png', 448, 136);
         this.load.spritesheet('try-again-button', './assets/images/ui/try-again-button.png', 628, 234);
+        this.load.spritesheet('uno-mas-button', './assets/images/ui/unomas-btn-76.png', 632, 238);
         this.load.spritesheet('resume-button', './assets/images/ui/resume-button.png', 628, 233);
         this.load.spritesheet('quit-button', './assets/images/ui/quit-button.png', 447, 136);
         this.load.spritesheet('close-button', './assets/images/ui/close-button.png', 148, 135);
         this.load.spritesheet('next-button', './assets/images/ui/next-button.png', 448, 136);
         this.load.spritesheet('previous-button', './assets/images/ui/previous-button.png', 448, 136);
+
+        this.load.audio('main-music', './assets/sound/game.mp3');
+        this.load.audio('game-over', './assets/sound/game-over.mp3');
+        this.load.audio('food', './assets/sound/food.mp3');
+        this.load.audio('drink', './assets/sound/gulp.mp3');
+        this.load.audio('pause-music', './assets/sound/menu+pause+rules.mp3');
     }
 
     create() {

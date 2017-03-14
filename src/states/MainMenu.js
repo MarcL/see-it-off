@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import config from '../config';
+import * as music from './gameMusic';
 
 export default class extends Phaser.State {
     create() {
@@ -28,9 +29,15 @@ export default class extends Phaser.State {
             1,
             0
         );
+
+        if (!this.game._music) {
+            this.game._music = music.initialise(this.game);
+        }
+        music.start(this.game, this.game._music);
     }
 
     startGame() {
+        music.stop(this.game._music);
         this.state.start('Game');
     }
 
