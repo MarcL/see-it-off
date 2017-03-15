@@ -38,7 +38,7 @@ export default {
         mouthOffset: 180
     },
     sharing: {
-        text: 'I just got a time of #TIME# on See It Off. Can you beat it?',
+        text: 'I just got a time of #TIME# on See It Off. Can you beat it? #seeitoff',
         twitterUrl: 'https://twitter.com/intent/tweet?text='
     }
 };
