@@ -19,25 +19,9 @@ export default class extends Phaser.State {
             x: config.gameWidth * 0.5,
             y: config.gameHeight * 0.35
         };
-        const backgroundSprite = this.add.sprite(
-            faceBg.x,
-            faceBg.y,
-            'background-game-over'
-        );
-        backgroundSprite.anchor.setTo(0.5, 0.5);
 
-        const faceSprite = this.add.sprite(faceBg.x + 8, faceBg.y + 40, 'faces');
-        faceSprite.scale = {x: 2, y: 2};
-        faceSprite.anchor.setTo(0.5, 0.5);
-        faceSprite.frame = getLastFace();
-
-        const lastTimeText = this.add.text(
-            config.gameWidth * 0.5,
-            config.gameHeight * 0.58,
-            this.game._lastTime,
-            fontStyle
-        );
-        lastTimeText.anchor.setTo(0.5);
+        this.addLastFace(faceBg);
+        this.addScoreBar(faceBg);
 
         this.add.button(
             config.gameWidth * 0.2,
@@ -61,6 +45,44 @@ export default class extends Phaser.State {
         );
 
         this.initialiseSound();
+    }
+
+    addLastFace(faceBg) {
+        const backgroundSprite = this.add.sprite(
+            faceBg.x,
+            faceBg.y,
+            'background-game-over'
+        );
+        backgroundSprite.anchor.setTo(0.5, 0.5);
+
+        const faceSprite = this.add.sprite(faceBg.x + 8, faceBg.y + 20, 'faces');
+        faceSprite.scale = {x: 2, y: 2};
+        faceSprite.anchor.setTo(0.5, 0.5);
+        faceSprite.frame = getLastFace();
+    }
+
+    addScoreBar(faceBg) {
+        const scoreBar = this.add.sprite(
+            faceBg.x,
+            config.gameHeight * 0.53,
+            'score-bar'
+        );
+        scoreBar.anchor.setTo(0.5, 0.5);
+        scoreBar.scale = {x: 2, y: 2};
+
+        const timeFontStyle = {
+            font: '80px dinregular',
+            fill: '#111',
+            align: 'center'
+        };
+
+        const lastTimeText = this.add.text(
+            config.gameWidth * 0.5,
+            config.gameHeight * 0.53,
+            this.game._lastTime,
+            timeFontStyle
+        );
+        lastTimeText.anchor.setTo(0.5);
     }
 
     initialiseSound() {
