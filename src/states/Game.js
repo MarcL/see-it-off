@@ -212,6 +212,7 @@ export default class extends Phaser.State {
             newFace = faceConstants.FACE_MERRY;
         }
 
+        // TODO - these need changing if we've got a timer
         if ((drinkDifference <= 50) && (foodDifference <= 50)) {
             if (this._score > 200) {
                 newFace = faceConstants.FACE_LAUGHING;
@@ -382,7 +383,7 @@ export default class extends Phaser.State {
         this._foodBar.anchor.setTo(0, 0.5);
         this._originalBarWidth = this._foodBar.getBounds().width;
 
-        const drinksBarPos = {x: config.gameWidth * 0.025, y: config.gameHeight * 0.94};
+        const drinksBarPos = {x: (config.gameWidth * 0.025) + 5, y: config.gameHeight * 0.94};
         const drinksBarBackground = this.add.sprite(drinksBarPos.x, drinksBarPos.y, 'drinks-bar');
         drinksBarBackground.anchor.setTo(0, 0.5);
         this._drinksBar = this.add.sprite(drinksBarPos.x + 152, drinksBarPos.y - 7, 'bars', 1);
