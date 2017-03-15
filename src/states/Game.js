@@ -243,12 +243,15 @@ export default class extends Phaser.State {
         const noDrinkPoints = (this._drinkAmount <= gameConfig.drinkMinimumAmount);
         const noFoodPoints = (this._foodAmount <= gameConfig.foodMinimumAmount);
 
+        const tooFat = (this._drinkAmount >= gameConfig.drinkMaximumAmount);
+        const tooDrunk = (this._foodAmount >= gameConfig.foodMaximumAmount);
+
         // TODO - REMOVE: DEBUG
         if (this._cursors.up.isDown) {
             return true;
         }
 
-        return noDrinkPoints || noFoodPoints;
+        return noDrinkPoints || noFoodPoints || tooFat || tooDrunk;
     }
 
     showGameOver() {
