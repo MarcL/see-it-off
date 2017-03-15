@@ -23,26 +23,8 @@ export default class extends Phaser.State {
         this.addLastFace(faceBg);
         this.addScoreBar(faceBg);
 
-        this.add.button(
-            config.gameWidth * 0.2,
-            config.gameHeight * 0.65,
-            'uno-mas-button',
-            this.startGame,
-            this,
-            1,
-            0
-        );
-
-        // TODO - Add in if have time
-        this.add.button(
-            config.gameWidth * 0.29,
-            config.gameHeight * 0.85,
-            'rules-button',
-            this.showRules,
-            this,
-            1,
-            0
-        );
+        this.addRestartButton();
+        this.addSharingButtons();
 
         this.initialiseSound();
     }
@@ -85,6 +67,58 @@ export default class extends Phaser.State {
         lastTimeText.anchor.setTo(0.5);
     }
 
+    addRestartButton() {
+        this.add.button(
+            config.gameWidth * 0.2,
+            config.gameHeight * 0.65,
+            'uno-mas-button',
+            this.startGame,
+            this,
+            1,
+            0
+        );
+    }
+
+    addSharingButtons() {
+        if (!window) {
+            return;
+        }
+
+        const buttonYPosition = config.gameHeight * 0.9;
+
+        const twitterButton = this.add.button(
+            config.gameWidth * 0.4,
+            buttonYPosition,
+            'twitter-button',
+            this.shareOnTwitter,
+            this,
+            1,
+            0
+        );
+        twitterButton.anchor.setTo(0.5, 0.5);
+
+        const facebookButton = this.add.button(
+            config.gameWidth * 0.6,
+            buttonYPosition,
+            'facebook-button',
+            this.shareOnFacebook,
+            this,
+            1,
+            0
+        );
+        facebookButton.anchor.setTo(0.5, 0.5);
+    }
+
+    shareOnFacebook() {
+        // TODO work out FB sharing
+        window.open('https://www.facebook.com/');
+    }
+
+    shareOnTwitter() {
+        // TODO work out Twitter sharing
+        window.open('https://twitter.com/');
+    }
+
     initialiseSound() {
         if (!this.game._music) {
             this.game._music = music.initialise(this.game);
@@ -98,9 +132,5 @@ export default class extends Phaser.State {
     startGame() {
         music.stop(this.game._music);
         this.state.start('Game');
-    }
-
-    showRules() {
-        this.state.start('Rules');
     }
 }

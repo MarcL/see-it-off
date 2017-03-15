@@ -14,7 +14,9 @@ export default {
         spit: './assets/images/player/spit.png',
         'rules-bar-drinks': './assets/images/ui/rules-bar-drinks.png',
         'rules-bar-food': './assets/images/ui/rules-bar-food.png',
-        'controls-screenshot': './assets/images/ui/controls-screenshot.png'
+        'controls-screenshot': './assets/images/ui/controls-screenshot.png',
+        'facebook-button': './assets/images/ui/game-over-share-fb.png',
+        'twitter-button': './assets/images/ui/game-over-share-twitter.png'
     },
     rules: {
         drinkDecrementPerTimeUnit: 2,
