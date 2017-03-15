@@ -27,7 +27,7 @@ export default {
         foodMinimumAmount: -250,
         foodMaximumAmount: 250,
         playerInitialMoveSpeed: 500,
-        playerMaxDragMultiplier: 0.6,
+        playerMaxDragMultiplier: 0.5,
         playerYPosition: 860,
 
         spawnTimeMinimum: 1000,

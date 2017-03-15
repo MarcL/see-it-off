@@ -34,6 +34,16 @@ const formatTimeString = (milliseconds) => {
     return `${minutesText}:${secondsText}`;
 };
 
+const getSpeedDragMultiplier = (amount, maximumAmount, dragMultiplier) => {
+    if (amount < 0) {
+        return 1.0;
+    }
+
+    const drunkPercentage = amount / maximumAmount;
+    const speedMultiplier = 1 - (drunkPercentage * dragMultiplier);
+    return speedMultiplier;
+};
+
 export default class extends Phaser.State {
     init() {
         this._player = null;
@@ -280,13 +290,34 @@ export default class extends Phaser.State {
     }
 
     getDrunkSpeedMultiplier() {
-        const drunkPercentage = this._drinkAmount / gameConfig.drinkMaximumAmount;
-        const speedMultiplier = 1 - (drunkPercentage * gameConfig.playerMaxDragMultiplier);
-        return speedMultiplier;
+        return getSpeedDragMultiplier(
+            this._drinkAmount,
+            gameConfig.drinkMaximumAmount,
+            gameConfig.playerMaxDragMultiplier
+        );
+    }
+
+    getFatSpeedMultiplier() {
+        return getSpeedDragMultiplier(
+            this._foodAmount,
+            gameConfig.foodMaximumAmount,
+            gameConfig.playerMaxDragMultiplier
+        );
+    }
+
+    getLowestSpeedMultiplier() {
+        const drunkSpeedMultiplier = this.getDrunkSpeedMultiplier();
+        const fatSpeedMultiplier = this.getFatSpeedMultiplier();
+
+        if (drunkSpeedMultiplier < fatSpeedMultiplier) {
+            return drunkSpeedMultiplier;
+        }
+
+        return fatSpeedMultiplier;
     }
 
     updatePlayer() {
-        const speedMultiplier = this.getDrunkSpeedMultiplier();
+        const speedMultiplier = this.getLowestSpeedMultiplier();
         const moveSpeed = gameConfig.playerInitialMoveSpeed * speedMultiplier;
         this._player.body.velocity.x = 0;
 
