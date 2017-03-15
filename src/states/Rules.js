@@ -172,7 +172,7 @@ export default class extends Phaser.State {
         ));
 
         page.add(this.createText(rightColumnX, config.gameHeight * 0.6, 'If Tom eats more than he drinks, controlling him becomes harder as he gets fat.', 'left', config.gameWidth * 0.5));
-        page.add(this.createText(rightColumnX, config.gameHeight * 0.73, 'The game is over when he\'s too fat to move.', 'left', config.gameWidth * 0.5));
+        page.add(this.createText(rightColumnX, config.gameHeight * 0.76, 'The game is over when he\'s too fat to move.', 'left', config.gameWidth * 0.5));
         page.add(this.createFaceSprite(
             config.gameWidth * 0.03,
             config.gameHeight * 0.55,
