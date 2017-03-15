@@ -209,14 +209,23 @@ export default class extends Phaser.State {
         page.add(drinksBar);
 
         page.add(this.createText(xPos, config.gameHeight * 0.6, 'A bored and tired Tom is an unhappy Tom: don\'t let him call it a night too early!', 'left'));
-        const face = this.createFaceSprite(
-            config.gameWidth * 0.5,
-            config.gameHeight * 0.76,
-            faceConstants.FACE_ANGRY,
-            1
-        );
-        face.anchor.setTo(0.5);
-        page.add(face);
+
+        const faceSprites = [
+            {frame: faceConstants.FACE_BORED, xPos: 0.25},
+            {frame: faceConstants.FACE_ANNOYED, xPos: 0.5},
+            {frame: faceConstants.FACE_ANGRY, xPos: 0.75}
+        ];
+
+        faceSprites.forEach((faceData) => {
+            const face = this.createFaceSprite(
+                config.gameWidth * faceData.xPos,
+                config.gameHeight * 0.77,
+                faceData.frame,
+                1
+            );
+            face.anchor.setTo(0.5);
+            page.add(face);
+        });
 
         page.add(this.createPreviousButton());
         page.visible = false;
