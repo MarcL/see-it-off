@@ -36,7 +36,6 @@ export default class extends Phaser.State {
     }
 
     addText(x, y, text) {
-        console.log({x, y});
         const fontStyle = {
             font: '64px dinregular',
             fill: '#fff',
@@ -132,9 +131,7 @@ export default class extends Phaser.State {
 
     createSharingText() {
         const textWithScore = config.sharing.text.replace('#TIME#', this.game._lastTime);
-        const currentUrl = window.location.href;
-        const text = `${textWithScore} ${currentUrl}`;
-        return encodeURIComponent(text);
+        return encodeURIComponent(textWithScore);
     }
 
     shareOnFacebook() {
@@ -143,7 +140,10 @@ export default class extends Phaser.State {
     }
 
     shareOnTwitter() {
-        const url = `${config.sharing.twitterUrl}${this.createSharingText()}`;
+        const sharingText = this.createSharingText();
+        const encodedUrl = encodeURI(window.location.href);
+        const hashtags = config.sharing.hashtags.join(',');
+        const url = `${config.sharing.twitterUrl}?text=${sharingText}&url=${encodedUrl}&hashtags=${hashtags}`;
         window.open(url);
     }
 
