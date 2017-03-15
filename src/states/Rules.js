@@ -57,9 +57,9 @@ export default class extends Phaser.State {
         return text;
     }
 
-    createText(x, y, content, align = 'center', wordWrapWidth = config.gameWidth * 0.9) {
+    createText(x, y, content, align = 'center', wordWrapWidth = config.gameWidth * 0.9, font) {
         const fontStyle = {
-            font: '40px dinregular',
+            font: font || '40px dinregular',
             fill: '#fff',
             align,
             wordWrap: true,
@@ -73,6 +73,13 @@ export default class extends Phaser.State {
             fontStyle
         );
 
+        return text;
+    }
+
+    createCenteredText(x, y, content, align = 'center', wordWrapWidth = config.gameWidth * 0.9, font) {
+        console.log(font);
+        const text = this.createText(x, y, content, align, wordWrapWidth, font);
+        text.anchor.setTo(0.5);
         return text;
     }
 
@@ -208,7 +215,15 @@ export default class extends Phaser.State {
         drinksBar.anchor.setTo(0.5);
         page.add(drinksBar);
 
-        page.add(this.createText(xPos, config.gameHeight * 0.6, 'A bored and tired Tom is an unhappy Tom: don\'t let him call it a night too early!', 'left'));
+        page.add(this.createCenteredText(config.gameWidth * 0.5, config.gameHeight * 0.6, 'A bored and tired Tom is an unhappy Tom.'));
+        page.add(this.createCenteredText(
+            config.gameWidth * 0.5,
+            config.gameHeight * 0.68,
+            'Don\'t let him call it a night too early!',
+            'center',
+            config.gameWidth * 0.9,
+            '50px dinregular'
+        ));
 
         const faceSprites = [
             {frame: faceConstants.FACE_BORED, xPos: 0.25},
@@ -219,7 +234,7 @@ export default class extends Phaser.State {
         faceSprites.forEach((faceData) => {
             const face = this.createFaceSprite(
                 config.gameWidth * faceData.xPos,
-                config.gameHeight * 0.77,
+                config.gameHeight * 0.8,
                 faceData.frame,
                 1
             );
