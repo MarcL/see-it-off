@@ -131,7 +131,9 @@ export default class extends Phaser.State {
     }
 
     createSharingText() {
-        const text = config.sharing.text.replace('#TIME#', this.game._lastTime);
+        const textWithScore = config.sharing.text.replace('#TIME#', this.game._lastTime);
+        const currentUrl = window.location.href;
+        const text = `${textWithScore} ${currentUrl}`;
         return encodeURIComponent(text);
     }
 
