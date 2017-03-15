@@ -130,14 +130,19 @@ export default class extends Phaser.State {
         facebookButton.anchor.setTo(0.5, 0.5);
     }
 
+    createSharingText() {
+        const text = config.sharing.text.replace('#TIME#', this.game._lastTime);
+        return encodeURIComponent(text);
+    }
+
     shareOnFacebook() {
         // TODO work out FB sharing
         window.open('https://www.facebook.com/');
     }
 
     shareOnTwitter() {
-        // TODO work out Twitter sharing
-        window.open('https://twitter.com/');
+        const url = `${config.sharing.twitterUrl}${this.createSharingText()}`;
+        window.open(url);
     }
 
     initialiseSound() {

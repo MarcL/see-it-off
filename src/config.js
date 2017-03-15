@@ -30,11 +30,15 @@ export default {
         playerMaxDragMultiplier: 0.5,
         playerYPosition: 860,
 
-        spawnTimeMinimum: 1000,
-        spawnTimeMaximum: 2000,
+        spawnTimeMinimum: 500,
+        spawnTimeMaximum: 1000,
     },
     gravity: 400,
     player: {
         mouthOffset: 180
+    },
+    sharing: {
+        text: 'I just got a time of #TIME# on See It Off. Can you beat it?',
+        twitterUrl: 'https://twitter.com/intent/tweet?text='
     }
 };
