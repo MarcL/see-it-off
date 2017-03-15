@@ -6,18 +6,13 @@ import * as music from './gameMusic';
 export default class extends Phaser.State {
     create() {
         this.stage.backgroundColor = '#222';
-        const fontStyle = {
-            font: '100px eraserregular',
-            fill: '#fff',
-            align: 'center'
-        };
 
-        const gameOverText = this.add.text(config.gameWidth * 0.5, config.gameHeight * 0.1, 'GAME OVER', fontStyle);
-        gameOverText.anchor.setTo(0.5);
+        this.addTitle();
+        this.addText(config.gameWidth * 0.5, config.gameHeight * 0.16, 'Tom has left the party');
 
         const faceBg = {
             x: config.gameWidth * 0.5,
-            y: config.gameHeight * 0.35
+            y: config.gameHeight * 0.4
         };
 
         this.addLastFace(faceBg);
@@ -27,6 +22,29 @@ export default class extends Phaser.State {
         this.addSharingButtons();
 
         this.initialiseSound();
+    }
+
+    addTitle() {
+        const fontStyle = {
+            font: '100px eraserregular',
+            fill: '#fff',
+            align: 'center'
+        };
+
+        const gameOverText = this.add.text(config.gameWidth * 0.5, config.gameHeight * 0.08, 'GAME OVER', fontStyle);
+        gameOverText.anchor.setTo(0.5);
+    }
+
+    addText(x, y, text) {
+        console.log({x, y});
+        const fontStyle = {
+            font: '64px dinregular',
+            fill: '#fff',
+            align: 'center'
+        };
+
+        const gameOverText = this.add.text(x, y, text, fontStyle);
+        gameOverText.anchor.setTo(0.5);
     }
 
     addLastFace(faceBg) {
@@ -44,9 +62,10 @@ export default class extends Phaser.State {
     }
 
     addScoreBar(faceBg) {
+        const yPos = faceBg.y + (config.gameHeight * 0.15);
         const scoreBar = this.add.sprite(
             faceBg.x,
-            config.gameHeight * 0.53,
+            yPos,
             'score-bar'
         );
         scoreBar.anchor.setTo(0.5, 0.5);
@@ -60,7 +79,7 @@ export default class extends Phaser.State {
 
         const lastTimeText = this.add.text(
             config.gameWidth * 0.5,
-            config.gameHeight * 0.53,
+            yPos,
             this.game._lastTime,
             timeFontStyle
         );
@@ -84,7 +103,9 @@ export default class extends Phaser.State {
             return;
         }
 
-        const buttonYPosition = config.gameHeight * 0.9;
+        const buttonYPosition = config.gameHeight * 0.92;
+
+        this.addText(config.gameWidth * 0.5, config.gameHeight * 0.85, 'Share your score');
 
         const twitterButton = this.add.button(
             config.gameWidth * 0.4,
