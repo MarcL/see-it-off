@@ -453,11 +453,10 @@ export default class extends Phaser.State {
         barSprite.updateCrop();
     }
 
-
     spawnCollectible() {
         this._nextSpawnTime = randomIntegerBetween(
-            gameConfig.minimumSpawnTime,
-            gameConfig.maximumSpawnTime
+            gameConfig.spawnTimeMinimum,
+            gameConfig.spawnTimeMaximum
         );
 
         const dropPos = randomIntegerBetween(config.gameWidth * 0.05, config.gameWidth * 0.95);

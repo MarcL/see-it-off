@@ -20,7 +20,7 @@ export default {
     },
     rules: {
         drinkDecrementPerTimeUnit: 2,
-        drinkDecrementTimeMilliSeconds: 500,
+        drinkDecrementTimeMilliSeconds: 250,
         drinkMinimumAmount: -250,
         drinkMaximumAmount: 250,
         foodDecrementPerMove: 4,
@@ -29,8 +29,9 @@ export default {
         playerInitialMoveSpeed: 500,
         playerMaxDragMultiplier: 0.6,
         playerYPosition: 860,
-        minimumSpawnTime: 1200,
-        maximumSpawnTime: 2500,
+
+        spawnTimeMinimum: 1000,
+        spawnTimeMaximum: 2000,
     },
     gravity: 400,
     player: {
