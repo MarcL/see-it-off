@@ -30,8 +30,11 @@ export default {
         playerMaxDragMultiplier: 0.5,
         playerYPosition: 860,
 
-        spawnTimeMinimum: 500,
-        spawnTimeMaximum: 1000,
+
+        spawnTimeMinimum: 1000,
+        spawnTimeMaximum: 2000,
+        spawnSpeedUpTimeInSecs: 30,
+        spawnSpeedUpMaxMultiplier: 0.4
     },
     gravity: 400,
     player: {

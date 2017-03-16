@@ -73,6 +73,10 @@ export default class extends Phaser.State {
         this._drinkAmount = 0;
         this._foodSound = null;
         this._drinkSound = null;
+        this._spawnSpeedUpPerSecond =
+            (1 - gameConfig.spawnSpeedUpMaxMultiplier) /
+            gameConfig.spawnSpeedUpTimeInSecs;
+        this._spawnSpeedMultiplier = 1;
     }
 
     create() {
@@ -115,6 +119,8 @@ export default class extends Phaser.State {
         this.setTotalScore();
 
         this.initialiseSound();
+
+        this.game.time.events.repeat(Phaser.Timer.SECOND, gameConfig.spawnSpeedUpTimeInSecs, this.updateSpawnMultiplier, this);
     }
 
     initialisePauseMenu() {
@@ -193,7 +199,6 @@ export default class extends Phaser.State {
         this.updatePlayer();
         this.updateCollectibles();
         this.updateDrinkAmount();
-
         this.updateFace();
 
         if (this.isGameOver()) {
@@ -487,11 +492,26 @@ export default class extends Phaser.State {
         barSprite.updateCrop();
     }
 
-    spawnCollectible() {
-        this._nextSpawnTime = randomIntegerBetween(
-            gameConfig.spawnTimeMinimum,
-            gameConfig.spawnTimeMaximum
+    getNextSpawnTime() {
+
+        const minSpawnTime = gameConfig.spawnTimeMinimum * this._spawnSpeedMultiplier;
+        const maxSpawnTime = gameConfig.spawnTimeMaximum * this._spawnSpeedMultiplier;
+
+        return randomIntegerBetween(
+            minSpawnTime,
+            maxSpawnTime
         );
+    }
+
+    updateSpawnMultiplier() {
+        this._spawnSpeedMultiplier -= this._spawnSpeedUpPerSecond;
+        if (this._spawnSpeedMultiplier < gameConfig.spawnSpeedUpMaxMultiplier) {
+            this._spawnSpeedMultiplier = gameConfig.spawnSpeedUpMaxMultiplier;
+        }
+    }
+
+    spawnCollectible() {
+        this._nextSpawnTime = this.getNextSpawnTime();
 
         const dropPos = randomIntegerBetween(config.gameWidth * 0.05, config.gameWidth * 0.95);
         const dropOffset = 0;
