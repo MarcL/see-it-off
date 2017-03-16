@@ -41,7 +41,7 @@ export default {
         mouthOffset: 180
     },
     sharing: {
-        text: 'I just got a time of #TIME# on See It Off. Can you beat it?',
+        text: 'Can you get @iamtmrobinson drunk? I lasted for #TIME#. Can you beat it?',
         hashtags: ['seeitoff'],
         twitterUrl: 'https://twitter.com/intent/tweet'
     }
