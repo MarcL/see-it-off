@@ -107,7 +107,7 @@ export default class extends Phaser.State {
         this.addText(config.gameWidth * 0.5, config.gameHeight * 0.85, 'Share your score');
 
         const twitterButton = this.add.button(
-            config.gameWidth * 0.4,
+            config.gameWidth * 0.5,
             buttonYPosition,
             'twitter-button',
             this.shareOnTwitter,
@@ -117,16 +117,18 @@ export default class extends Phaser.State {
         );
         twitterButton.anchor.setTo(0.5, 0.5);
 
-        const facebookButton = this.add.button(
-            config.gameWidth * 0.6,
-            buttonYPosition,
-            'facebook-button',
-            this.shareOnFacebook,
-            this,
-            1,
-            0
-        );
-        facebookButton.anchor.setTo(0.5, 0.5);
+        // TODO Sorry, need to use the FB API to do this now.
+        // Not enough time. :(
+        // const facebookButton = this.add.button(
+        //     config.gameWidth * 0.6,
+        //     buttonYPosition,
+        //     'facebook-button',
+        //     this.shareOnFacebook,
+        //     this,
+        //     1,
+        //     0
+        // );
+        // facebookButton.anchor.setTo(0.5, 0.5);
     }
 
     createSharingText() {
