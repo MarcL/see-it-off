@@ -21,9 +21,7 @@ const getBarFrameNumber = (amount) => {
     return 1;
 };
 
-const prependZero = (time) => {
-    return (time < 10) ? `0${time}` : time;
-}
+const prependZero = time => ((time < 10) ? `0${time}` : time);
 
 const formatTimeString = (milliseconds) => {
     const seconds = parseInt((milliseconds / 1000) % 60, 10);
@@ -120,7 +118,12 @@ export default class extends Phaser.State {
 
         this.initialiseSound();
 
-        this.game.time.events.repeat(Phaser.Timer.SECOND, gameConfig.spawnSpeedUpTimeInSecs, this.updateSpawnMultiplier, this);
+        this.game.time.events.repeat(
+            Phaser.Timer.SECOND,
+            gameConfig.spawnSpeedUpTimeInSecs,
+            this.updateSpawnMultiplier,
+            this
+        );
     }
 
     initialisePauseMenu() {
@@ -485,7 +488,6 @@ export default class extends Phaser.State {
     }
 
     getNextSpawnTime() {
-
         const minSpawnTime = gameConfig.spawnTimeMinimum * this._spawnSpeedMultiplier;
         const maxSpawnTime = gameConfig.spawnTimeMaximum * this._spawnSpeedMultiplier;
 
