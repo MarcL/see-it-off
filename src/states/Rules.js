@@ -77,7 +77,6 @@ export default class extends Phaser.State {
     }
 
     createCenteredText(x, y, content, align = 'center', wordWrapWidth = config.gameWidth * 0.9, font) {
-        console.log(font);
         const text = this.createText(x, y, content, align, wordWrapWidth, font);
         text.anchor.setTo(0.5);
         return text;
