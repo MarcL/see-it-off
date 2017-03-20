@@ -2,6 +2,8 @@
 
 <br/><p align="center"><img width="192" src="https://rawgit.com/marcl/see-it-off/master/favicons/android-chrome-192x192.png" alt="See It Off"></p><br/>
 
+> Help Tom to have the time of his life!
+
 ## Install
 
 ```
