@@ -1,5 +1,7 @@
 # See It Off
 
+<br/><p align="center"><img width="192" src="https://rawgit.com/marcl/see-it-off/master/favicons/android-chrome-192x192.png" alt="See It Off"></p><br/>
+
 ## Install
 
 ```
