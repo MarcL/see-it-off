@@ -19,7 +19,7 @@ npm install
 
 ## Deploying the game
 
-The production build can be deployed to the `gh-pages` branch if it's mapped. To do this, clone a `gh-pages` branch into `/dist`. Assuming your in the root of the project:
+The production build can be deployed to the `gh-pages` branch if it's mapped. To do this, clone a `gh-pages` branch into `/dist`. Assuming you're in the root of the project:
 
 ```
 git clone git@github.com:MarcL/see-it-off.git --branch gh-pages dist
